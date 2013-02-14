@@ -40,38 +40,38 @@ timeglider.TimelineView
     
     
       // vars declared in closure above
-	    MED = mediator;
-	    options = MED.options;
-	    // core identifier to "uniquify"
+      MED = mediator;
+      options = MED.options;
+      // core identifier to "uniquify"
       PL = "#" + widget._id;
       WIDGET_ID = widget._id;
-      	    
+            
 
-	/* references specific to the instance (rather than timeglider) so
-	   one can have more than one instance of the widget on a page */ 	      
-	   this._views = {
-    		PLACE:PL,
-    		CONTAINER : PL + " .timeglider-container", 
-    		TIMELINE_MENU : PL + " .timeglider-timeline-menu", 
-    		TIMELINE_MENU_UL : PL + " .timeglider-timeline-menu ul", 
-    		TIMELINE_LIST_BT : PL + " .timeglider-list-bt", 
-    		SLIDER_CONTAINER : PL + " .timeglider-slider-container", 
-    		SLIDER : PL + " .timeglider-slider", 
-    		ZOOM_DISPLAY : PL + " .timeglider-zoomlevel-display",
-    		TRUCK : PL + " .timeglider-truck", 
-    		CENTERLINE : PL + " .timeglider-centerline", 
-    		TICKS : PL + " .timeglider-ticks", 
-    		HANDLE : PL + " .timeglider-handle",
-    		FOOTER : PL + " .timeglider-footer",
-    		FILTER_BT : PL + " .timeglider-filter-bt",
-    		FILTER_BOX : PL + " .timeglider-filter-box",
-    		TOOLS_BT : PL + " .timeglider-tools-bt"
-	    }
-	  
-	  // shorthand for common elements
-	  CONTAINER = this._views.CONTAINER;
-	  TICKS = this._views.TICKS;
-	
+  /* references specific to the instance (rather than timeglider) so
+     one can have more than one instance of the widget on a page */         
+     this._views = {
+        PLACE:PL,
+        CONTAINER : PL + " .timeglider-container", 
+        TIMELINE_MENU : PL + " .timeglider-timeline-menu", 
+        TIMELINE_MENU_UL : PL + " .timeglider-timeline-menu ul", 
+        TIMELINE_LIST_BT : PL + " .timeglider-list-bt", 
+        SLIDER_CONTAINER : PL + " .timeglider-slider-container", 
+        SLIDER : PL + " .timeglider-slider", 
+        ZOOM_DISPLAY : PL + " .timeglider-zoomlevel-display",
+        TRUCK : PL + " .timeglider-truck", 
+        CENTERLINE : PL + " .timeglider-centerline", 
+        TICKS : PL + " .timeglider-ticks", 
+        HANDLE : PL + " .timeglider-handle",
+        FOOTER : PL + " .timeglider-footer",
+        FILTER_BT : PL + " .timeglider-filter-bt",
+        FILTER_BOX : PL + " .timeglider-filter-box",
+        TOOLS_BT : PL + " .timeglider-tools-bt"
+      }
+    
+    // shorthand for common elements
+    CONTAINER = this._views.CONTAINER;
+    TICKS = this._views.TICKS;
+  
   /*  TEMPLATES FOR THINGS LIKE MODAL WINDOWS
   *   events themselves are non-templated and rendered in TG_Org.js
   *   as there are too many on-the-fly style attributes etc, and 
@@ -83,24 +83,24 @@ timeglider.TimelineView
   // in case custom event_modal fails, we need this object to exist
   this._templates = {}
   
-	this._templates = {
-	    // allows for customized templates imported
-	    test : "testola",
-	    
+  this._templates = {
+      // allows for customized templates imported
+      test : "testola",
+      
       event_modal: this.getEventModalTemplate(),
-    	  
-    	// generated, appended on the fly, then removed
-    	event_modal_video : $.template( null,
-    	  "<div class='tg-modal timeglider-ev-video-modal ui-widget-content' id='${id}_modal'>"
-    	  + "<div class='close-button-remove'></div>"
+        
+      // generated, appended on the fly, then removed
+      event_modal_video : $.template( null,
+        "<div class='tg-modal timeglider-ev-video-modal ui-widget-content' id='${id}_modal'>"
+        + "<div class='close-button-remove'></div>"
         + "<iframe width = '100%' height='300' src='${video}'></iframe></div>"),
         
       // generated, appended on the fly, then removed
       timeline_modal : $.template( null, "<div class='tg-modal timeglider-timeline-modal ui-widget-content' id='tl_${id}_modal'>" 
-      	  + "<div class='close-button-remove'></div>"
-      	  + "<h4 id='title'>${title}</h4>"
-      	  + "<p>{{html description}}</p>"
-      	  + "</div>"),
+          + "<div class='close-button-remove'></div>"
+          + "<h4 id='title'>${title}</h4>"
+          + "<p>{{html description}}</p>"
+          + "</div>"),
      
      // generated, appended on the fly, then removed
      filter_modal : $.template( null,
@@ -136,29 +136,29 @@ timeglider.TimelineView
     }
 
 
-	$(CONTAINER).css("height", $(PL).height());
-	
-	this.basicFontSize = options.basic_fontsize;
-	
-	if (options.show_footer == false) {
-	  $(this._views.FOOTER).css("display", "none");
+  $(CONTAINER).css("height", $(PL).height());
+  
+  this.basicFontSize = options.basic_fontsize;
+  
+  if (options.show_footer == false) {
+    $(this._views.FOOTER).css("display", "none");
   }
 
-	this.dragSpeed = 0;
-	this.dimensions = this.getWidgetDimensions();
-	this.tickNum = 0;
-	this.leftside = 0;
-	this.rightside = 0;
-	this.ticksHandleOffset = 0;	
-	this.timeoout_id = 1;
-	this.sliderActive = false;
-	this.ztop = 1000;
-	this.filterBoxActivated = false;
-	
-	// INITIAL CONSTRUCTION
-	this.buildSlider();
-	this.setupFilter();
-	
+  this.dragSpeed = 0;
+  this.dimensions = this.getWidgetDimensions();
+  this.tickNum = 0;
+  this.leftside = 0;
+  this.rightside = 0;
+  this.ticksHandleOffset = 0;  
+  this.timeoout_id = 1;
+  this.sliderActive = false;
+  this.ztop = 1000;
+  this.filterBoxActivated = false;
+  
+  // INITIAL CONSTRUCTION
+  this.buildSlider();
+  this.setupFilter();
+  
 
   /* PUB-SUB "LISTENERS" SUBSCRIBERS */
   
@@ -166,226 +166,226 @@ timeglider.TimelineView
       $(".timeglider-loading").fadeOut(500);     
   });
   
-   	
-	$.subscribe("mediator.ticksOffsetChange", function () {
-		me.tickHangies();
-		me.registerTitles();
-		me.registerDragging();
-	});
-	
-	
-	$.subscribe("mediator.zoomLevelChange", function () {
-		
-		me.tickNum = 0;
-		me.leftside = 0;
-		
-		var zl = MED.getZoomLevel();
-		// if the slider isn't already at the given value change it
-		$(me._views.SLIDER).slider("value", me.invSliderVal(zl));
+     
+  $.subscribe("mediator.ticksOffsetChange", function () {
+    me.tickHangies();
+    me.registerTitles();
+    me.registerDragging();
+  });
+  
+  
+  $.subscribe("mediator.zoomLevelChange", function () {
+    
+    me.tickNum = 0;
+    me.leftside = 0;
+    
+    var zl = MED.getZoomLevel();
+    // if the slider isn't already at the given value change it
+    $(me._views.SLIDER).slider("value", me.invSliderVal(zl));
     me.displayZoomLevel(zl);
     
     me.castTicks("zoomLevelChange");
-		
-	});
-	
-	/// This happens on a TOTAL REFRESH of 
-	/// ticks, as when zooming; panning will load
-	/// events of active timelines per tick	
-	$.subscribe("mediator.ticksReadySignal", function (b) {
-		  if (MED.ticksReady === true) {
-			me.freshTimelines();
-		} 
-	});
-	
-	
-	/*
-    	Renews the timeline at current focus/zoom, but with
-    	possibly different timeline/legend/etc parameters
-    	! The only view method that responds directly to a model refresh()
-	*/
-	$.subscribe("mediator.refreshSignal", function () {
-	  
-  	me.tickNum = 0;
-  	me.leftside = 0;
-  	
-		me.castTicks("refreshSignal");
-	});
+    
+  });
+  
+  /// This happens on a TOTAL REFRESH of 
+  /// ticks, as when zooming; panning will load
+  /// events of active timelines per tick  
+  $.subscribe("mediator.ticksReadySignal", function (b) {
+      if (MED.ticksReady === true) {
+      me.freshTimelines();
+    } 
+  });
+  
+  
+  /*
+      Renews the timeline at current focus/zoom, but with
+      possibly different timeline/legend/etc parameters
+      ! The only view method that responds directly to a model refresh()
+  */
+  $.subscribe("mediator.refreshSignal", function () {
+    
+    me.tickNum = 0;
+    me.leftside = 0;
+    
+    me.castTicks("refreshSignal");
+  });
 
 
-	// adding to or removing from ticksArray
-	// DORMANT: necessary?
-	$.subscribe( 'mediator.ticksArrayChange', function () {
-		/*
-    	SCAN OVER TICKS FOR ANY REASON?
-		*/
-	});
-	
-	
-	// listen for focus date change
-	// mainly if date is zipped-to rather than dragged
-	$.subscribe("mediator.focusDateChange", function () {
-		// 
-	});
-	
-	
-	// UPDATE TIMELINES MENU
-	$.subscribe("mediator.timelineListChangeSignal", function (arg) {
+  // adding to or removing from ticksArray
+  // DORMANT: necessary?
+  $.subscribe( 'mediator.ticksArrayChange', function () {
+    /*
+      SCAN OVER TICKS FOR ANY REASON?
+    */
+  });
+  
+  
+  // listen for focus date change
+  // mainly if date is zipped-to rather than dragged
+  $.subscribe("mediator.focusDateChange", function () {
+    // 
+  });
+  
+  
+  // UPDATE TIMELINES MENU
+  $.subscribe("mediator.timelineListChangeSignal", function (arg) {
     me.buildTimelineMenu();
-	});
-	
+  });
+  
 
-	$.subscribe("mediator.activeTimelinesChange", function () {
-		
-		$(me._views.TIMELINE_MENU_UL + " li").each(function () {
-				var id = $(this).attr("id");
-			    if ($.inArray(id, MED.activeTimelines) != -1) {
-					$(this).addClass("activeTimeline");
-				} else { 
-					$(this).removeClass("activeTimeline");	
-				}	
-        }); // end each	
-	});
-	
-	
+  $.subscribe("mediator.activeTimelinesChange", function () {
+    
+    $(me._views.TIMELINE_MENU_UL + " li").each(function () {
+        var id = $(this).attr("id");
+          if ($.inArray(id, MED.activeTimelines) != -1) {
+          $(this).addClass("activeTimeline");
+        } else { 
+          $(this).removeClass("activeTimeline");  
+        }  
+        }); // end each  
+  });
+  
+  
   $.subscribe("mediator.filterChange", function () {
     // refresh is done inside MED -- no need to refresh here
-	});
+  });
   /* END PUB-SUB SUBSCRIBERS */
 
   this.setPanButton($(".timeglider-pan-right"),-30);
   this.setPanButton($(".timeglider-pan-left"),30);
   /*
-	$(".timeglider-pan-buttons div")
-	  .mousedown(function () {
-	  var lr = $(this).attr("class"),
-	      // if it's not pan-right, it's pan-left
-	      dir = (lr == "timeglider-pan-right") ? -30 : 30; 
-	    me.intervalMachine("pan", {type:"set", fn: me.pan, args:[dir], intvl:30});  })
+  $(".timeglider-pan-buttons div")
+    .mousedown(function () {
+    var lr = $(this).attr("class"),
+        // if it's not pan-right, it's pan-left
+        dir = (lr == "timeglider-pan-right") ? -30 : 30; 
+      me.intervalMachine("pan", {type:"set", fn: me.pan, args:[dir], intvl:30});  })
     .mouseup(function () {
-	    me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  })
+      me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  })
     .mouseout(function () {
-    	me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  });
+      me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  });
   */
 
   
-	$(this._views.TRUCK)
-		.dblclick(function(e) {
-			 	var Cw = me.dimensions.container.width,
-			    Cx = e.pageX - (me.dimensions.container.offset.left),
-				  offMid = Cx - Cw/2,
-			    secPerPx = MED.getZoomInfo().spp,
-				  // don't need mouse_y yet :
-				  //	var Cy = e.pageY - $(PLACEMENT).offset().top;
-			    fdSec = MED.getFocusDate().sec,
-				  dcSec = Math.floor(fdSec + (offMid * secPerPx)),
-				  
-				  clk = new TG_Date(dcSec),
-				  foc = new TG_Date(fdSec);
-				  
-				
-				debug.trace("DBLCLICK:" + foc.mo + "-" + foc.ye + " DBLCLICK:" + clk.mo + "-" + clk.ye, "note");	
-				
-		})			
-		.bind('mousewheel', function(event, delta) {
-						
-			      var dir = Math.ceil(-1 * (delta * 3));
-						var zl = MED.getZoomLevel();
-						MED.setZoomLevel(zl += dir);
-			      return false;
-			            
-		}); // end TRUCK EVENTS
+  $(this._views.TRUCK)
+    .dblclick(function(e) {
+         var Cw = me.dimensions.container.width,
+          Cx = e.pageX - (me.dimensions.container.offset.left),
+          offMid = Cx - Cw/2,
+          secPerPx = MED.getZoomInfo().spp,
+          // don't need mouse_y yet :
+          //  var Cy = e.pageY - $(PLACEMENT).offset().top;
+          fdSec = MED.getFocusDate().sec,
+          dcSec = Math.floor(fdSec + (offMid * secPerPx)),
+          
+          clk = new TG_Date(dcSec),
+          foc = new TG_Date(fdSec);
+          
+        
+        debug.trace("DBLCLICK:" + foc.mo + "-" + foc.ye + " DBLCLICK:" + clk.mo + "-" + clk.ye, "note");  
+        
+    })      
+    .bind('mousewheel', function(event, delta) {
+            
+            var dir = Math.ceil(-1 * (delta * 3));
+            var zl = MED.getZoomLevel();
+            MED.setZoomLevel(zl += dir);
+            return false;
+                  
+    }); // end TRUCK EVENTS
 
 
 
-	
-	$(TICKS)
-	  	.draggable({ axis: 'x',
-			//start: function(event, ui) {
-				/// 
-			//},
-			drag: function(event, ui) {
-				// just report movement to model...
-				MED.setTicksOffset($(this).position().left);
-			},
-		
-			stop: function(event, ui) {
-				me.resetTicksHandle();
-				me.registerDragging();
-    		
-				// me.easeOutTicks();  
-			}
-			
-		}) // end draggable
-		.delegate(CONTAINER + " .timeglider-timeline-event", "click", function () { 
-			// EVENT ON-CLICK !!!!!!
-			var eid = $(this).attr("id"); 
-			var ev = MED.eventPool[eid];
-			 
-		  if (ev.click_callback) {
-		    
-    		    var broken = ev.click_callback.split(".");
-    		    var ns = broken[0];
-		    
-    		    if (broken.length == 2) {
-    		      var fn = broken[1];
-    		      window[ns][fn](ev);
-    	      } else {
-    	        window[ns](ev);
-            }
-		    
-	    } else {
-	          me.eventModal(eid);
+  
+  $(TICKS)
+      .draggable({ axis: 'x',
+      //start: function(event, ui) {
+        /// 
+      //},
+      drag: function(event, ui) {
+        // just report movement to model...
+        MED.setTicksOffset($(this).position().left);
+      },
+    
+      stop: function(event, ui) {
+        me.resetTicksHandle();
+        me.registerDragging();
+        
+        // me.easeOutTicks();  
       }
-		  
-		})	
-		.delegate(".timeglider-timeline-event", "mouseover", function () { 
-			var eid = $(this).attr("id"); 
-			var ev = MED.eventPool[eid];
-			debug.trace("hover, title:" + ev.title, "note"); 
-			me.eventHover($(this), ev)
-		})
-		.delegate(".timeglider-timeline-event", "mouseout", function () { 
-			var eid = $(this).attr("id"); 
-			var ev = MED.eventPool[eid];
-			debug.trace("hover, title:" + ev.title, "note"); 
-			me.eventUnHover($(this), ev)
-		})
-		.delegate(".timeglider-event-collapsed", "hover", function () { 
-			var eid = $(this).attr("id"); 
-			var title = MED.eventPool[eid].title;
-			debug.trace("collapsed, title:" + title, "note"); 
-		});
-		
-	$(CONTAINER).delegate(".close-button-remove", "click", function () {
-	  var parent_id = $(this).parent().attr("id");
-	  $("#" + parent_id).remove();
-	});
-	
-	
-	// FULL MODAL
-	$(CONTAINER).delegate(".full_modal_close", "click", function () {
-	  $(".full_modal").remove();
-	});
-	
-	$(CONTAINER).delegate(".full_modal_scrim", "click", function () {
-	  $(".full_modal").remove();
-	});
-	
-	
-	$(CONTAINER).delegate(".timeglider-more-plus", "click", function () {
-	  MED.zoom(-1);
-	});
-	
-	$(CONTAINER + " .timeglider-legend-close").live("click", function () {
-	  var $legend = $(CONTAINER + " .timeglider-legend");
-	   $legend.fadeOut(300, function () { $legend.remove(); });
+      
+    }) // end draggable
+    .delegate(CONTAINER + " .timeglider-timeline-event", "click", function () { 
+      // EVENT ON-CLICK !!!!!!
+      var eid = $(this).attr("id"); 
+      var ev = MED.eventPool[eid];
+       
+      if (ev.click_callback) {
+        
+            var broken = ev.click_callback.split(".");
+            var ns = broken[0];
+        
+            if (broken.length == 2) {
+              var fn = broken[1];
+              window[ns][fn](ev);
+            } else {
+              window[ns](ev);
+            }
+        
+      } else {
+            me.eventModal(eid);
+      }
+      
+    })  
+    .delegate(".timeglider-timeline-event", "mouseover", function () { 
+      var eid = $(this).attr("id"); 
+      var ev = MED.eventPool[eid];
+      debug.trace("hover, title:" + ev.title, "note"); 
+      me.eventHover($(this), ev)
+    })
+    .delegate(".timeglider-timeline-event", "mouseout", function () { 
+      var eid = $(this).attr("id"); 
+      var ev = MED.eventPool[eid];
+      debug.trace("hover, title:" + ev.title, "note"); 
+      me.eventUnHover($(this), ev)
+    })
+    .delegate(".timeglider-event-collapsed", "hover", function () { 
+      var eid = $(this).attr("id"); 
+      var title = MED.eventPool[eid].title;
+      debug.trace("collapsed, title:" + title, "note"); 
+    });
+    
+  $(CONTAINER).delegate(".close-button-remove", "click", function () {
+    var parent_id = $(this).parent().attr("id");
+    $("#" + parent_id).remove();
+  });
+  
+  
+  // FULL MODAL
+  $(CONTAINER).delegate(".full_modal_close", "click", function () {
+    $(".full_modal").remove();
+  });
+  
+  $(CONTAINER).delegate(".full_modal_scrim", "click", function () {
+    $(".full_modal").remove();
+  });
+  
+  
+  $(CONTAINER).delegate(".timeglider-more-plus", "click", function () {
+    MED.zoom(-1);
+  });
+  
+  $(CONTAINER + " .timeglider-legend-close").live("click", function () {
+    var $legend = $(CONTAINER + " .timeglider-legend");
+     $legend.fadeOut(300, function () { $legend.remove(); });
   });
   
   $(CONTAINER + " .timeglider-legend-all").live("click", function () {
     $(CONTAINER + " .timeglider-legend li").each(function () {
       $(this).removeClass("tg-legend-icon-selected");
     });
-	  MED.setFilters({origin:"legend", icon: "all"});
+    MED.setFilters({origin:"legend", icon: "all"});
   });
 
 /*
@@ -396,137 +396,137 @@ timeglider.TimelineView
 
  $.tmpl(me._templates.timeline_list_modal,{}).appendTo(CONTAINER);
  $(me._views.TIMELINE_LIST_BT).click(function () {
-		  $(me._views.TIMELINE_MENU).toggleClass("timeglider-menu-hidden")
-		    .position({
-        		my: "right bottom",
-      			at: "right top",
-      			of: $(me._views.TIMELINE_LIST_BT),
-      			offset: "-8, -12"
+      $(me._views.TIMELINE_MENU).toggleClass("timeglider-menu-hidden")
+        .position({
+            my: "right bottom",
+            at: "right top",
+            of: $(me._views.TIMELINE_LIST_BT),
+            offset: "-8, -12"
           });
-	});
-	
-	
-	$(this._views.TIMELINE_MENU + " .close-button").live("click", function () {
-		 $(me._views.TIMELINE_MENU).toggleClass("timeglider-menu-hidden")
-	});
+  });
+  
+  
+  $(this._views.TIMELINE_MENU + " .close-button").live("click", function () {
+     $(me._views.TIMELINE_MENU).toggleClass("timeglider-menu-hidden")
+  });
   
   /* SETTINGS BUSINESS */
   $(this._views.TOOLS_BT).click(function() {
     alert("I'm just a stand-in for the tools... ");
   }); 
  
-	
-	
-	// TODO: make function displayCenterline()
-	// TODO: simply append a centerline template rather than .css'ing it!
-	if (MED.options.show_centerline === true) {
-		$(this._views.CENTERLINE).css({"height":me.dimensions.container.height, "left": me.dimensions.container.centerx});
-	} else {
-		$(this._views.CENTERLINE).css({"display":"none"});
-	}
-	
+  
+  
+  // TODO: make function displayCenterline()
+  // TODO: simply append a centerline template rather than .css'ing it!
+  if (MED.options.show_centerline === true) {
+    $(this._views.CENTERLINE).css({"height":me.dimensions.container.height, "left": me.dimensions.container.centerx});
+  } else {
+    $(this._views.CENTERLINE).css({"display":"none"});
+  }
+  
 
-	
-	//// GESTURES  ////
-	/* !!TODO    Still a FAIL in iPad ---- 
-	   When actually doing something, Safari seems to 
-	   ignore attempts at preventing default... 
-	   
-	   PRIVATE/SCOPED IN CLOSURE, THESE ARE UNTESTABLE
-	*/
-	function gestureChange (e) {
-		e.preventDefault ();
-		if (MED.gesturing === false) {
-			MED.gesturing = true;
-			MED.gestureStartZoom = MED.getZoomLevel();
-		}
-	    var target = e.target;
-		// constant spatial converter value
-	    var g = (e.scale / 5)* MED.gestureStartZoom;
-		  debug.trace("gesture zoom:" + g, "note");
-		  MED.setZoomLevel(g);
-	}
+  
+  //// GESTURES  ////
+  /* !!TODO    Still a FAIL in iPad ---- 
+     When actually doing something, Safari seems to 
+     ignore attempts at preventing default... 
+     
+     PRIVATE/SCOPED IN CLOSURE, THESE ARE UNTESTABLE
+  */
+  function gestureChange (e) {
+    e.preventDefault ();
+    if (MED.gesturing === false) {
+      MED.gesturing = true;
+      MED.gestureStartZoom = MED.getZoomLevel();
+    }
+      var target = e.target;
+    // constant spatial converter value
+      var g = (e.scale / 5)* MED.gestureStartZoom;
+      debug.trace("gesture zoom:" + g, "note");
+      MED.setZoomLevel(g);
+  }
 
 
-	function gestureEnd (e) {
-		MED.gesturing = false;
-	}
+  function gestureEnd (e) {
+    MED.gesturing = false;
+  }
 
-	if ($.support.touch) {   
-	  // alert("widget:" + WIDGET_ID);
-	  $("#" + WIDGET_ID).addTouch();
-	  
-	  var tgcompnt = document.getElementById(WIDGET_ID);
-	  
-	  tgcompnt.addEventListener("gesturestart", function (e) {
-	    	  e.preventDefault();
-	        $("#output").append("<br>gesture zoom:" + MED.getZoomLevel());
-	    }, false);
-	    
-	    tgcompnt.addEventListener("gestureend", function (e) {
-  	    	  e.preventDefault();
-  	        $("#output").append("<br>gesture end:" + MED.getZoomLevel());
-  	    }, false);
-	  
-	  
-	  tgcompnt.addEventListener("gesturechange", function (e) {
-    	    	  e.preventDefault();
-    	    	  //var gLeft = e.touches.item(0).pageX;
-    	    	  //var gRight = e.touches.item(1).pageX;
-    	    	  var gLeft = "l", gRight = "r";
-    	        $("#output").append("[" + gLeft + ":" + gRight + "]");
-    	        
-    	 }, false);
-	    
-	}
+  if ($.support.touch) {   
+    // alert("widget:" + WIDGET_ID);
+    $("#" + WIDGET_ID).addTouch();
+    
+    var tgcompnt = document.getElementById(WIDGET_ID);
+    
+    tgcompnt.addEventListener("gesturestart", function (e) {
+          e.preventDefault();
+          $("#output").append("<br>gesture zoom:" + MED.getZoomLevel());
+      }, false);
+      
+      tgcompnt.addEventListener("gestureend", function (e) {
+            e.preventDefault();
+            $("#output").append("<br>gesture end:" + MED.getZoomLevel());
+        }, false);
+    
+    
+    tgcompnt.addEventListener("gesturechange", function (e) {
+              e.preventDefault();
+              //var gLeft = e.touches.item(0).pageX;
+              //var gRight = e.touches.item(1).pageX;
+              var gLeft = "l", gRight = "r";
+              $("#output").append("[" + gLeft + ":" + gRight + "]");
+              
+       }, false);
+      
+  }
 
-	
+  
 } 
 
 
 tg.TG_TimelineView.prototype = {
-	
-	getWidgetDimensions : function () {
-			
-			var c = $(CONTAINER),
-				w = c.width(),
-				wc = Math.floor(w / 2) + 1,
-				h = c.height(),
-				hc = Math.floor(h/2),
-				t_height = 30,
-				lft = c.position().left,
-				offset = c.offset(),
-				f_height = (options.show_footer == true) ? $(this._views.FOOTER).height() : 0,
-				t_top = h - f_height - t_height,
-				// objects to return
-				container = {"width":w, "height":h, "centerx":wc, "centery":hc, "left": lft, "offset": offset},
-				footer = {"height":f_height},
-				tick = {"top":t_top};
-			
-			return {container:container, tick:tick, footer:footer}
-		  
-	},
-	
-	
-	getEventModalTemplate : function() {
-	    
-	   var me = this,
-	       template = false,
-	       stripped = '',
-	       default_template = $.template( null, "<div class='tg-modal timeglider-ev-modal ui-widget-content' id='ev_${id}_modal'>" 
-      	   + "<div class='close-button-remove'></div>" 
-      	   + "<div class='startdate'>${startdate}</div>"
-      	   + "<h4 id='title'>${title}</h4>"
-      	   + "<p>{{html description}}</p>"
-      	   + "<ul class='timeglider-ev-modal-links'>{{html links}}</ul>"
-      	   + "</div>");
-	       
-	   // DEFAULT TEMPLATE
-	   if (!options.event_modal.href) {
+  
+  getWidgetDimensions : function () {
+      
+      var c = $(CONTAINER),
+        w = c.width(),
+        wc = Math.floor(w / 2) + 1,
+        h = c.height(),
+        hc = Math.floor(h/2),
+        t_height = 30,
+        lft = c.position().left,
+        offset = c.offset(),
+        f_height = (options.show_footer == true) ? $(this._views.FOOTER).height() : 0,
+        t_top = h - f_height - t_height,
+        // objects to return
+        container = {"width":w, "height":h, "centerx":wc, "centery":hc, "left": lft, "offset": offset},
+        footer = {"height":f_height},
+        tick = {"top":t_top};
+      
+      return {container:container, tick:tick, footer:footer}
+      
+  },
+  
+  
+  getEventModalTemplate : function() {
+      
+     var me = this,
+         template = false,
+         stripped = '',
+         default_template = $.template( null, "<div class='tg-modal timeglider-ev-modal ui-widget-content' id='ev_${id}_modal'>" 
+           + "<div class='close-button-remove'></div>" 
+           + "<div class='startdate'>${startdate}</div>"
+           + "<h4 id='title'>${title}</h4>"
+           + "<p>{{html description}}</p>"
+           + "<ul class='timeglider-ev-modal-links'>{{html links}}</ul>"
+           + "</div>");
+         
+     // DEFAULT TEMPLATE
+     if (!options.event_modal.href) {
        template = default_template
-   	 
- 	   } else {
- 	     // we have a custom event modal waiting in a file === get it
+      
+      } else {
+        // we have a custom event modal waiting in a file === get it
        var tget = $.ajax({
          url: options.event_modal.href,
          success: function (html) { 
@@ -542,31 +542,31 @@ tg.TG_TimelineView.prototype = {
        });
        
      }
-   	 return template;
-   	  
+      return template;
+       
    },
   
-	
+  
   scaleToImportance : function(imp, zoo) {
-		    return imp / zoo;
-	},
-	
-	displayZoomLevel : function(zl) {
+        return imp / zoo;
+  },
+  
+  displayZoomLevel : function(zl) {
 
-	  if (zl > 0) {
-	  var me=this;
-	  if (options.display_zoom_level == true) {
- 		    $(me._views.ZOOM_DISPLAY).text(zl);
-	    }
+    if (zl > 0) {
+    var me=this;
+    if (options.display_zoom_level == true) {
+         $(me._views.ZOOM_DISPLAY).text(zl);
+      }
     }
- 	},
- 	
- 	
- 	doSomething : function() {
- 		    alert("FOO DO, viewer");
- 	},
- 	
- 	
+   },
+   
+   
+   doSomething : function() {
+         alert("FOO DO, viewer");
+   },
+   
+   
   /**
   * setPanButton
   * @param $sel {jquery dom selector} the button to be assigned
@@ -574,52 +574,52 @@ tg.TG_TimelineView.prototype = {
   *
   *
   */
- 	setPanButton : function ($sel, vel) {
- 	     var me = this,
- 	         _int = 33; // 33/1000 second interval
- 	     $($sel).live("mousedown", function () {
-    	    me.intervalMachine("pan", {type:"set", fn: me.pan, args:[vel], intvl:_int});  })
+   setPanButton : function ($sel, vel) {
+        var me = this,
+            _int = 33; // 33/1000 second interval
+        $($sel).live("mousedown", function () {
+          me.intervalMachine("pan", {type:"set", fn: me.pan, args:[vel], intvl:_int});  })
         .live("mouseup", function () {
-    	    me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  })
+          me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  })
         .live("mouseout", function () {
-        	me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  });
+          me.intervalMachine("pan", {type:"clear", fn: me.pan, callback: "resetTicksHandle"});  });
   },
- 	
- 	
- 	
-	/* 
-	* intervalMachine
-	* param name {String} JS interval ref. name
-	* @param info {Object} 
-	*     type: clear | set
-	*     fn: function to call on interval
-	*     callback: function to invoke upon clearing
-	*     eg: {type:"clear", fn: me.pan, callback: "resetTicksHandle"}
-	*
-	*
-	*  PLUGIN CANDIDATE!
-	
-	*/
-	intervalMachine : function (name, info) {
-	  var me=this;
-	  if (info.type === "clear") {
-	    clearInterval(intervals[name]);
-	    
-	    if (info.callback) {
-	      me[info.callback]();
+   
+   
+   
+  /* 
+  * intervalMachine
+  * param name {String} JS interval ref. name
+  * @param info {Object} 
+  *     type: clear | set
+  *     fn: function to call on interval
+  *     callback: function to invoke upon clearing
+  *     eg: {type:"clear", fn: me.pan, callback: "resetTicksHandle"}
+  *
+  *
+  *  PLUGIN CANDIDATE!
+  
+  */
+  intervalMachine : function (name, info) {
+    var me=this;
+    if (info.type === "clear") {
+      clearInterval(intervals[name]);
+      
+      if (info.callback) {
+        me[info.callback]();
       }
       
     } else {
       // run it 
-	    intervals[name] = setInterval(function () {
-	          info.fn.apply(me, info.args);
-	        }, info.intvl);
+      intervals[name] = setInterval(function () {
+            info.fn.apply(me, info.args);
+          }, info.intvl);
     }
   },
 
 
   invSliderVal : function(v) {
-  	return Math.abs(v - 101);
+    return Math.abs(v - 101);
   },
   
   /*
@@ -643,160 +643,160 @@ tg.TG_TimelineView.prototype = {
   
 
   registerTitles : function () {
-		
-		var toff, w, tw, sw, pos, titx, 
-		  $elem, env, tb, ti, relPos, tbWidth,
-		  mo = $(CONTAINER).offset().left;
-		
-		
-		$(".timeglider-event-spanning").each(
-			function() {
-			  // !TODO  needs optimizing of DOM "touching"
-			 	toff = $(this).offset().left - mo;
-				w = $(this).outerWidth();
-				$elem = $(".timeglider-event-title",this);
-				tw = $elem.outerWidth() + 5;
-				sw = $elem.siblings(".timeglider-event-spanner").outerWidth();
-				if (sw > tw) {
+    
+    var toff, w, tw, sw, pos, titx, 
+      $elem, env, tb, ti, relPos, tbWidth,
+      mo = $(CONTAINER).offset().left;
+    
+    
+    $(".timeglider-event-spanning").each(
+      function() {
+        // !TODO  needs optimizing of DOM "touching"
+         toff = $(this).offset().left - mo;
+        w = $(this).outerWidth();
+        $elem = $(".timeglider-event-title",this);
+        tw = $elem.outerWidth() + 5;
+        sw = $elem.siblings(".timeglider-event-spanner").outerWidth();
+        if (sw > tw) {
           if ((toff < 0) && (Math.abs(toff) < (w-tw))) {
             $elem.css({marginLeft:(-1 * toff)+5});
           } 
-			  }
-				
-				// is offscreen == false: $(this).removeClass('timeglider-event-offscreen')
-			 }
-		);
+        }
+        
+        // is offscreen == false: $(this).removeClass('timeglider-event-offscreen')
+       }
+    );
 
-		$(".tg-timeline-envelope").each(
-				function () {
-				  // !TODO  needs optimizing of DOM "touching"
-					env = $(this).offset().left - mo;
-					tb = $(".titleBar", this);
-					ti = $(".titleBar .timeline-title", this);
-					pos = tb.position().left;
-				 	relPos = pos + env;
-					tbWidth = tb.outerWidth();
-					
-					tw = tb.outerWidth();
-					
-				  titx = (-1 * relPos);
-					
-				 	if ( (relPos < 0) ) {
-						ti.css({marginLeft:titx+5});
-					} 
-				}
-		); 
-	// whew! end register titles
-	},
-	
-	
-	registerDragging : function () {
-	  /* 
-			startSec --> the seconds-value of the
-	    initial focus date on landing @ zoom level
-		*/
-		// TODO: See if we can throttle this to be only
-		// once every 100ms....
-		var startSec = MED.startSec,
-		  tickPos = $(TICKS).position().left,
-		  secPerPx = MED.getZoomInfo().spp,
-		  newSec = startSec - (tickPos * secPerPx);
-		  
-		  var newD = new TG_Date(newSec);
-		   		 
-		  MED.setFocusDate(newD);
-	},
-	
+    $(".tg-timeline-envelope").each(
+        function () {
+          // !TODO  needs optimizing of DOM "touching"
+          env = $(this).offset().left - mo;
+          tb = $(".titleBar", this);
+          ti = $(".titleBar .timeline-title", this);
+          pos = tb.position().left;
+           relPos = pos + env;
+          tbWidth = tb.outerWidth();
+          
+          tw = tb.outerWidth();
+          
+          titx = (-1 * relPos);
+          
+           if ( (relPos < 0) ) {
+            ti.css({marginLeft:titx+5});
+          } 
+        }
+    ); 
+  // whew! end register titles
+  },
+  
+  
+  registerDragging : function () {
+    /* 
+      startSec --> the seconds-value of the
+      initial focus date on landing @ zoom level
+    */
+    // TODO: See if we can throttle this to be only
+    // once every 100ms....
+    var startSec = MED.startSec,
+      tickPos = $(TICKS).position().left,
+      secPerPx = MED.getZoomInfo().spp,
+      newSec = startSec - (tickPos * secPerPx);
+      
+      var newD = new TG_Date(newSec);
+            
+      MED.setFocusDate(newD);
+  },
+  
   
   buildTimelineMenu : function () {
     
     var id, ta = MED.timelinePool, ta_ct = 0, me=this;
-		
-		    // cycle through menu
+    
+        // cycle through menu
         $(me._views.TIMELINE_MENU_UL + " li").remove();
-      	for (id in ta) {
-      			if (ta.hasOwnProperty(id)) {
-        			var t = ta[id];
-        			$(me._views.TIMELINE_MENU_UL).append("<li class = 'timelineList' id='" + id + "'>" + t.title + "</li>");
-        			$("li#" + id).click( function() { 
-        			    MED.toggleTimeline($(this).attr("id"));
-        			    });
-      			} // end filter
-      			ta_ct ++;
-      	}
+        for (id in ta) {
+            if (ta.hasOwnProperty(id)) {
+              var t = ta[id];
+              $(me._views.TIMELINE_MENU_UL).append("<li class = 'timelineList' id='" + id + "'>" + t.title + "</li>");
+              $("li#" + id).click( function() { 
+                  MED.toggleTimeline($(this).attr("id"));
+                  });
+            } // end filter
+            ta_ct ++;
+        }
   },
   
-	
-	/* 
-		Zoom slider is inverted value-wise from the normal jQuery UI slider
-	  so we need to feed in and take out inverse values with invSliderVal()            
-	*/
-	buildSlider : function () {
-	  var iz = MED.getZoomLevel();
-	  
-		if (options.min_zoom == options.max_zoom) {
-		  // With a single zoom level, hide the zoom controller
-  	  $(this._views.SLIDER_CONTAINER).css("display", "none");
-  	  
+  
+  /* 
+    Zoom slider is inverted value-wise from the normal jQuery UI slider
+    so we need to feed in and take out inverse values with invSliderVal()            
+  */
+  buildSlider : function () {
+    var iz = MED.getZoomLevel();
+    
+    if (options.min_zoom == options.max_zoom) {
+      // With a single zoom level, hide the zoom controller
+      $(this._views.SLIDER_CONTAINER).css("display", "none");
+      
     } else {
       
       if (options.display_zoom_level == true) {
-    		var $zl = $("<div>").appendTo(this._views.SLIDER_CONTAINER).addClass("timeglider-zoomlevel-display");
-    		$zl.html('&nbsp;');
-    	}
+        var $zl = $("<div>").appendTo(this._views.SLIDER_CONTAINER).addClass("timeglider-zoomlevel-display");
+        $zl.html('&nbsp;');
+      }
       
-		  var me = this,
-		  init_zoom = me.invSliderVal(iz),
+      var me = this,
+      init_zoom = me.invSliderVal(iz),
       hZoom = MED.max_zoom,
       lZoom = MED.min_zoom,
       sHeight = (1 + hZoom - lZoom) * 3;
-	
-		 	$(this._views.SLIDER)
-			  .css("height", sHeight)
-			  .slider({ 
-  				steps: 100,
-  				handle: $('.knob'),
-  				animate:300,
-				orientation: 'vertical',
+  
+       $(this._views.SLIDER)
+        .css("height", sHeight)
+        .slider({ 
+          steps: 100,
+          handle: $('.knob'),
+          animate:300,
+        orientation: 'vertical',
 
-				/* "min" here is really the _highest_ zoom value @ upside down */
-  				min:me.invSliderVal(hZoom),
+        /* "min" here is really the _highest_ zoom value @ upside down */
+          min:me.invSliderVal(hZoom),
 
-				/* "max" actually takes (i  nverse value of) low zoom level */
-  				max:me.invSliderVal(lZoom),
+        /* "max" actually takes (i  nverse value of) low zoom level */
+          max:me.invSliderVal(lZoom),
 
-  				value:init_zoom,
+          value:init_zoom,
 
-				start: function (e, ui) {
-					// show zoom level legend
-					me.sliderActive = true;
-				},
+        start: function (e, ui) {
+          // show zoom level legend
+          me.sliderActive = true;
+        },
 
-				stop: function (e, ui) {
-					// hide zoom level legend
-					me.sliderActive = false;
-				},
+        stop: function (e, ui) {
+          // hide zoom level legend
+          me.sliderActive = false;
+        },
 
-				change: function(e,ui){
-      				// i.e. on-release handler
-					    // possibly load throttled back events
-  			}, 
+        change: function(e,ui){
+              // i.e. on-release handler
+              // possibly load throttled back events
+        }, 
 
-				slide: function(e, ui) {
-					// sets model zoom level to INVERSE of slider value
-					MED.setZoomLevel(me.invSliderVal(ui.value));
-				}
-			});
-			
-		} // end--if min_zoom == max_zoom 
-	},
-	
-	/*
-	* Occurs when MOUSE-hovering over event
-	*
-	*/
-	
-	eventHover : function ($ev, ev_obj) {
+        slide: function(e, ui) {
+          // sets model zoom level to INVERSE of slider value
+          MED.setZoomLevel(me.invSliderVal(ui.value));
+        }
+      });
+      
+    } // end--if min_zoom == max_zoom 
+  },
+  
+  /*
+  * Occurs when MOUSE-hovering over event
+  *
+  */
+  
+  eventHover : function ($ev, ev_obj) {
 
     var me = this, 
         $hov = $(".timeglider-event-hover-info");
@@ -805,21 +805,21 @@ tg.TG_TimelineView.prototype = {
     // debug.log("hover display:" + ev_obj.date_display);
     if (ev_obj.date_display != "no") {
       $hov.position({
-  	    my: "left bottom",
-  	    at: "left top",
-  	    of: $ev,
-  	    offset: "1, -10",
-  	    collision: "flip flip"}).text(ev_obj.startdateObj.format("D", true));
+        my: "left bottom",
+        at: "left top",
+        of: $ev,
+        offset: "1, -10",
+        collision: "flip flip"}).text(ev_obj.startdateObj.format("D", true));
     }
-	  	   
-	  $ev.addClass("tg-event-hovered");
-	   
-	   
+         
+    $ev.addClass("tg-event-hovered");
+     
+     
   },
-	
-	eventUnHover : function ($ev, ev_obj) {
-	   $(".timeglider-event-hover-info").css("left", "-1000px");
-	   $ev.removeClass("tg-event-hovered");
+  
+  eventUnHover : function ($ev, ev_obj) {
+     $(".timeglider-event-hover-info").css("left", "-1000px");
+     $ev.removeClass("tg-event-hovered");
   },
   
   
@@ -829,26 +829,26 @@ tg.TG_TimelineView.prototype = {
       var me=this;
       $.tmpl(me._templates.filter_modal,{}).appendTo(me._views.CONTAINER);
       
-  	  $(me._views.FILTER_BT).click(function() {  
+      $(me._views.FILTER_BT).click(function() {  
 
-  	      var $bt = $(this), fbox = me._views.FILTER_BOX;
+          var $bt = $(this), fbox = me._views.FILTER_BOX;
 
-  	      // If it's never been opened, apply actions to the buttons, etc
-  	      if (me.filterBoxActivated == false) {
+          // If it's never been opened, apply actions to the buttons, etc
+          if (me.filterBoxActivated == false) {
 
-  	        me.filterBoxActivated =true;
+            me.filterBoxActivated =true;
 
-  	        var $filter_apply = $(fbox + " .timeglider-filter-apply"),
+            var $filter_apply = $(fbox + " .timeglider-filter-apply"),
               $filter_close = $(".timeglider-filter-box .close-button"),
               $filter_clear = $(fbox + " .timeglider-filter-clear"),
               incl = "", excl = "";
 
-  	          // set up listeners
-  	          $filter_apply.click(function () {
-  	            incl = $(fbox + " .timeglider-filter-include").val();
-  	            excl = $(fbox + " .timeglider-filter-exclude").val();
-  	            MED.setFilters({origin:"clude", include:incl, exclude:excl});
-  	            $(fbox).toggleClass("timeglider-menu-shown");
+              // set up listeners
+              $filter_apply.click(function () {
+                incl = $(fbox + " .timeglider-filter-include").val();
+                excl = $(fbox + " .timeglider-filter-exclude").val();
+                MED.setFilters({origin:"clude", include:incl, exclude:excl});
+                $(fbox).toggleClass("timeglider-menu-shown");
               });
 
               $filter_close.click(function () {
@@ -858,21 +858,21 @@ tg.TG_TimelineView.prototype = {
               $filter_clear.click(function () {
                 MED.setFilters({origin:"clude", include:'', exclude:''});
                 $(fbox + " .timeglider-filter-include").val('');
-  	            $(fbox + " .timeglider-filter-exclude").val('');
+                $(fbox + " .timeglider-filter-exclude").val('');
                 $(fbox).toggleClass("timeglider-menu-shown");
               });
               
               } // end if filterBoxActivated
 
               // open the box
-  	          $(fbox)
-  	            .toggleClass("timeglider-menu-hidden")
-  	            .css("z-index", me.ztop++)
-  	            .position({
-          		    my: "right bottom",
-        			    at: "right top",
-        			    of: $bt,
-        			    offset: "-8, -12"
+              $(fbox)
+                .toggleClass("timeglider-menu-hidden")
+                .css("z-index", me.ztop++)
+                .position({
+                  my: "right bottom",
+                  at: "right top",
+                  of: $bt,
+                  offset: "-8, -12"
               });
 
         }); // end FILTER_BT click
@@ -880,481 +880,481 @@ tg.TG_TimelineView.prototype = {
  }, // end setupFilter
   
   
-	clearTicks : function () {
-	  this.leftside = 0;
-		this.tickNum = 0;
-		$(TICKS)
-		  .css("left", 0)
-			.html("<div class='timeglider-handle'></div>");
-	},
+  clearTicks : function () {
+    this.leftside = 0;
+    this.tickNum = 0;
+    $(TICKS)
+      .css("left", 0)
+      .html("<div class='timeglider-handle'></div>");
+  },
 
 
-	/* 
-	  The initial drawing of a full set of ticks, starting in the 
-	  middle with a single, date-focused div with type:"init", after which
-	  a left-right alternating loop fills out the width of the current frame
-	*/
-	castTicks : function (orig) {
-	  	  	
-	  this.clearTicks();
+  /* 
+    The initial drawing of a full set of ticks, starting in the 
+    middle with a single, date-focused div with type:"init", after which
+    a left-right alternating loop fills out the width of the current frame
+  */
+  castTicks : function (orig) {
+          
+    this.clearTicks();
     
-		var zLevel = MED.getZoomLevel(),
-			fDate = MED.getFocusDate(),
-			tickWidth = MED.getZoomInfo().width,
-			twTotal = 0,
-			ctr = this.dimensions.container.centerx,
-			nTicks = Math.ceil(this.dimensions.container.width / tickWidth) + 4,
-			leftright = 'l';
-			
-	
-		MED.setTicksReady(false);
+    var zLevel = MED.getZoomLevel(),
+      fDate = MED.getFocusDate(),
+      tickWidth = MED.getZoomInfo().width,
+      twTotal = 0,
+      ctr = this.dimensions.container.centerx,
+      nTicks = Math.ceil(this.dimensions.container.width / tickWidth) + 4,
+      leftright = 'l';
+      
+  
+    MED.setTicksReady(false);
     
-		// INITIAL TICK added  in center according to focus date provided
-		this.addTick({"type":"init", "focus_date":fDate});
-	
-		// determine how many are necessary to fill (overfill) container
-		
-		// ALTERNATING L & R
-		for (var i=1; i<=nTicks; i +=1) {
-			this.addTick({"type":leftright});
-			leftright = (leftright == "l") ? "r" : "l";
-		}
-		
-		MED.setTicksReady(true);
-	},
+    // INITIAL TICK added  in center according to focus date provided
+    this.addTick({"type":"init", "focus_date":fDate});
+  
+    // determine how many are necessary to fill (overfill) container
+    
+    // ALTERNATING L & R
+    for (var i=1; i<=nTicks; i +=1) {
+      this.addTick({"type":leftright});
+      leftright = (leftright == "l") ? "r" : "l";
+    }
+    
+    MED.setTicksReady(true);
+  },
   
   
-	
-	/*
-	* @param info {object} --object--> type: init|l|r focusDate: date object for init type
-	*/											
-	addTick : function (info) {
+  
+  /*
+  * @param info {object} --object--> type: init|l|r focusDate: date object for init type
+  */                      
+  addTick : function (info) {
 
-			var mDays = 0, dist = 0, pos = 0, ctr = 0, 
-			tperu = 0, serial = 0, shiftLeft = 0,
-			tid = "", tickHtml = "", idRef = "", 
-			$tickDiv = {}, tInfo = {}, pack = {}, label = {}, mInfo = {}, 
-			tickUnit = MED.getZoomInfo().unit,
-			tickWidth = MED.getZoomInfo().width,
-			focusDate = MED.getFocusDate(),
-			tick_top = parseInt(this.dimensions.tick.top),
-			me = this,	
-			serial = MED.addToTicksArray({type:info.type, unit:tickUnit}, focusDate),
-			hours_html = "", hour_num=0, hour_label="";
-						
-		// adjust tick-width for months (mo)
-  		if (tickUnit == "mo") {
-  			// starts with tickWidth set for 28 days: How many px, days to add?
-  			mInfo = TG_Date.getMonthAdj(serial, tickWidth);
-  			tickWidth = mInfo.width;
-  			mDays = mInfo.days;
-			
-  		} 
+      var mDays = 0, dist = 0, pos = 0, ctr = 0, 
+      tperu = 0, serial = 0, shiftLeft = 0,
+      tid = "", tickHtml = "", idRef = "", 
+      $tickDiv = {}, tInfo = {}, pack = {}, label = {}, mInfo = {}, 
+      tickUnit = MED.getZoomInfo().unit,
+      tickWidth = MED.getZoomInfo().width,
+      focusDate = MED.getFocusDate(),
+      tick_top = parseInt(this.dimensions.tick.top),
+      me = this,  
+      serial = MED.addToTicksArray({type:info.type, unit:tickUnit}, focusDate),
+      hours_html = "", hour_num=0, hour_label="";
+            
+    // adjust tick-width for months (mo)
+      if (tickUnit == "mo") {
+        // starts with tickWidth set for 28 days: How many px, days to add?
+        mInfo = TG_Date.getMonthAdj(serial, tickWidth);
+        tickWidth = mInfo.width;
+        mDays = mInfo.days;
+      
+      } 
 
-		this.tickNum ++;
-		if (info.type == "init") {
-			
-		  shiftLeft = this.tickOffsetFromDate(MED.getZoomInfo(), MED.getFocusDate(), tickWidth);
+    this.tickNum ++;
+    if (info.type == "init") {
+      
+      shiftLeft = this.tickOffsetFromDate(MED.getZoomInfo(), MED.getFocusDate(), tickWidth);
 
-			pos = Math.ceil(this.dimensions.container.centerx + shiftLeft);
-						
-			this.leftside = pos;
-			this.rightside = (pos + tickWidth);
-			
-			
-		} else if (info.type == "l") {
-			pos = Math.floor(this.leftside - tickWidth);
-			this.leftside = pos;
-		} else if (info.type == "r") {
-			pos = Math.floor(this.rightside);
-			this.rightside += tickWidth;
-		}
-		
-		// turn this into a function...
-		MED.getTickBySerial(serial).width = tickWidth;
-		MED.getTickBySerial(serial).left = pos;
+      pos = Math.ceil(this.dimensions.container.centerx + shiftLeft);
+            
+      this.leftside = pos;
+      this.rightside = (pos + tickWidth);
+      
+      
+    } else if (info.type == "l") {
+      pos = Math.floor(this.leftside - tickWidth);
+      this.leftside = pos;
+    } else if (info.type == "r") {
+      pos = Math.floor(this.rightside);
+      this.rightside += tickWidth;
+    }
+    
+    // turn this into a function...
+    MED.getTickBySerial(serial).width = tickWidth;
+    MED.getTickBySerial(serial).left = pos;
 
-		tid = this._views.PLACE + "_" + tickUnit + "_" + serial + "-" + this.tickNum;
+    tid = this._views.PLACE + "_" + tickUnit + "_" + serial + "-" + this.tickNum;
 
-		$tickDiv= $("<div class='timeglider-tick' id='" + tid + "'>"
-		            + "<div class='timeglider-tick-label' id='label'></div></div>")
-		  .appendTo(TICKS);
-		
-		$tickDiv.css({width:tickWidth, left:pos, top:tick_top});
-						
-		// GET TICK DIVS FOR unit AND width
-		tInfo = this.getTickMarksInfo({unit:tickUnit, width:tickWidth});
-		// if there's a value for month-days, us it, or use
-		// tperu = (mDays > 0) ? mDays : tInfo.tperu;
-		tperu = mDays || tInfo.tperu;				
-			
-		dist = tickWidth / tperu;
+    $tickDiv= $("<div class='timeglider-tick' id='" + tid + "'>"
+                + "<div class='timeglider-tick-label' id='label'></div></div>")
+      .appendTo(TICKS);
+    
+    $tickDiv.css({width:tickWidth, left:pos, top:tick_top});
+            
+    // GET TICK DIVS FOR unit AND width
+    tInfo = this.getTickMarksInfo({unit:tickUnit, width:tickWidth});
+    // if there's a value for month-days, us it, or use
+    // tperu = (mDays > 0) ? mDays : tInfo.tperu;
+    tperu = mDays || tInfo.tperu;        
+      
+    dist = tickWidth / tperu;
 
     // Add tick-lines or times when divisions are spaced wider than 5
     
-		if (dist > 5) {
-		
-  			/* Raphael CANVAS for tick lines
-  			   @param tid {string} dom-id-with-no-hash, width, height 
-  			*/
-  			
-			  var lines = Raphael(tid, tickWidth, 30),
-				c, l, xd, stk = '', ht = 10,
-				downset = 20;
-				
-				
-				
-				for (l = 0; l < tperu; ++l) {
-				  // xd is cross distance...
-					xd = l * dist;
-					stk += "M" + xd + " " + downset + " L" + xd + " " + (ht + downset);
-					
-					// gather 24 hours of the day
-					if (tickUnit == "da" && dist > 16) {
-					  hour_label = me.getHourLabelFromHour(hour_num, dist);
-					  // set width below to subtract CSS padding-left
+    if (dist > 5) {
+    
+        /* Raphael CANVAS for tick lines
+           @param tid {string} dom-id-with-no-hash, width, height 
+        */
+        
+        var lines = Raphael(tid, tickWidth, 30),
+        c, l, xd, stk = '', ht = 10,
+        downset = 20;
+        
+        
+        
+        for (l = 0; l < tperu; ++l) {
+          // xd is cross distance...
+          xd = l * dist;
+          stk += "M" + xd + " " + downset + " L" + xd + " " + (ht + downset);
+          
+          // gather 24 hours of the day
+          if (tickUnit == "da" && dist > 16) {
+            hour_label = me.getHourLabelFromHour(hour_num, dist);
+            // set width below to subtract CSS padding-left
             hours_html += "<div class='timeglider-tick-hour-label' style='width:" + (dist - 4) + "px'>" + hour_label + "</div>";
             hour_num++;
-  			  }
+          }
 
-				}
-		
-				c = lines.path(stk);
-				// !TODO --- add stroke color into options object
-				c.attr({"stroke":"#333", "stroke-width":1});
-	
-			} // end dist > 5  if there's enough space between tickmarks
-			
-		// add hours gathered in loop above
-		if (tickUnit == "da" && dist > 32) {
-		  $tickDiv.append("<div style='position:absolute;top:14px;left:0'>" + hours_html + "</div>");
-	  } 
-		
-		pack = {"unit":tickUnit, "width":tickWidth, "serial":serial};
+        }
+    
+        c = lines.path(stk);
+        // !TODO --- add stroke color into options object
+        c.attr({"stroke":"#333", "stroke-width":1});
   
-		label = this.getDateLabelForTick(pack);
-	
-		// DO OTHER STUFF TO THE TICK, MAKE THE LABEL AN ACTIONABLE ELEMENT
-		// SHOULD APPEND WHOLE LABEL + TICKLINES HERE
-		$tickDiv.children("#label").text(label);
+      } // end dist > 5  if there's enough space between tickmarks
+      
+    // add hours gathered in loop above
+    if (tickUnit == "da" && dist > 32) {
+      $tickDiv.append("<div style='position:absolute;top:14px;left:0'>" + hours_html + "</div>");
+    } 
+    
+    pack = {"unit":tickUnit, "width":tickWidth, "serial":serial};
+  
+    label = this.getDateLabelForTick(pack);
+  
+    // DO OTHER STUFF TO THE TICK, MAKE THE LABEL AN ACTIONABLE ELEMENT
+    // SHOULD APPEND WHOLE LABEL + TICKLINES HERE
+    $tickDiv.children("#label").text(label);
 
-		return pack;
-		/* end addTick */
-	}, 
-	
-	getHourLabelFromHour : function (h24, width) {
-	  var ampm = "", htxt = "", bagels = "";
-	  
-	  htxt = (h24 > 12) ? h24-12 : h24;
-	  if (htxt == 0) htxt = 12;
-	  
-	  bagels = (width > 60) ? ":00" : "";
+    return pack;
+    /* end addTick */
+  }, 
+  
+  getHourLabelFromHour : function (h24, width) {
+    var ampm = "", htxt = "", bagels = "";
+    
+    htxt = (h24 > 12) ? h24-12 : h24;
+    if (htxt == 0) htxt = 12;
+    
+    bagels = (width > 60) ? ":00" : "";
     ampm = (h24 > 11) ? " pm" : " am";
     
     return htxt + bagels + ampm;
-	  
+    
   },
 
-	
-	/* provides addTick() info for marks and for adj width for month or year */
-	getTickMarksInfo : function (obj) {
-		var tperu;
-		switch (obj.unit) {
-			case "da": 
-				tperu = 24; 
-				break;
-			case "mo": 
-			  // this is adjusted for different months later
-				tperu = 30; 
-				break;
-			case "ye": 
-				tperu = 12; 
-				break;
-			default: tperu = 10; 
-		}
-	
-		return {"tperu":tperu};
-	},
-	
-	/*
-	*  getDateLabelForTick
-	*  determines label for date unit in "ruler"
-	*  @param obj {object} carries these values:
-	                       {"unit":tickUnit, "width":tickWidth, "serial":serial}
-	*
-	*/
-	getDateLabelForTick : function  (obj) {
-		var i, me=this, ser = obj.serial, tw = obj.width;
-	
-		switch(obj.unit) {
+  
+  /* provides addTick() info for marks and for adj width for month or year */
+  getTickMarksInfo : function (obj) {
+    var tperu;
+    switch (obj.unit) {
+      case "da": 
+        tperu = 24; 
+        break;
+      case "mo": 
+        // this is adjusted for different months later
+        tperu = 30; 
+        break;
+      case "ye": 
+        tperu = 12; 
+        break;
+      default: tperu = 10; 
+    }
+  
+    return {"tperu":tperu};
+  },
+  
+  /*
+  *  getDateLabelForTick
+  *  determines label for date unit in "ruler"
+  *  @param obj {object} carries these values:
+                         {"unit":tickUnit, "width":tickWidth, "serial":serial}
+  *
+  */
+  getDateLabelForTick : function  (obj) {
+    var i, me=this, ser = obj.serial, tw = obj.width;
+  
+    switch(obj.unit) {
 
       case "bill":
-      	if (ser == 0) {
-		      return "1";
-	      } else if (ser > 0) {
-	         return (ser) + " billion";
+        if (ser == 0) {
+          return "1";
+        } else if (ser > 0) {
+           return (ser) + " billion";
         } else {
-	         return (ser) + " b.y. bce";
+           return (ser) + " b.y. bce";
         }
         
       case "hundredmill":
-      	if (ser == 0) {
-		      return "1";
-	      } else if (ser > 0) {
-	         return (ser) + "00 million";
+        if (ser == 0) {
+          return "1";
+        } else if (ser > 0) {
+           return (ser) + "00 million";
         } else {
-	         return (ser) + "00 m.y. bce";
+           return (ser) + "00 m.y. bce";
         }
         
       case "tenmill":
-      		if (ser == 0) {
-  		      return "1";
-  	      } else if (ser > 0) {
-  	         return (ser) + "0 million";
+          if (ser == 0) {
+            return "1";
+          } else if (ser > 0) {
+             return (ser) + "0 million";
           } else {
-  	         return (ser) + "0 m.y. bce";
+             return (ser) + "0 m.y. bce";
           }
-        		    
+                
       case "mill":
-    		if (ser == 0) {
-		      return "1";
-	      } else if (ser > 0) {
-	         return (ser) + " million";
+        if (ser == 0) {
+          return "1";
+        } else if (ser > 0) {
+           return (ser) + " million";
         } else {
-	         return (ser) + " m.y. bce";
+           return (ser) + " m.y. bce";
         }
-      		    
+              
       case "hundredthou":
-  		  if (ser == 0) {
-		      return "1";
-	      } else if (ser > 0) {
-	        return (ser) + "00,000";
+        if (ser == 0) {
+          return "1";
+        } else if (ser > 0) {
+          return (ser) + "00,000";
         } else {
-	         return (ser) + "00,000 bce";
+           return (ser) + "00,000 bce";
         }   
-    		    
-		  case "tenthou":
-		    if (ser == 0) {
-		      return "1";
-	      } else if (ser > 0) {
-     	      return (ser) + "0,000";
+            
+      case "tenthou":
+        if (ser == 0) {
+          return "1";
+        } else if (ser > 0) {
+             return (ser) + "0,000";
         } else {
-     	      return (ser) + "0,000 bce";
+             return (ser) + "0,000 bce";
         }
  
-		  case "thou": 
-		    if (ser == 0) {
-		      return "1" + "(" + ser + ")";
-	      } else if (ser > 0) {
-     	    return (ser) + "000";
+      case "thou": 
+        if (ser == 0) {
+          return "1" + "(" + ser + ")";
+        } else if (ser > 0) {
+           return (ser) + "000";
         } else {
-     	    return (ser) + "000 bce";
+           return (ser) + "000 bce";
         }
 
-		  case "ce": 
-		    if (ser == 0) {
- 		       return "1" + "(" + ser + ")";
- 	      } else if (ser > 0) {
-   	       return (ser) + "00";
+      case "ce": 
+        if (ser == 0) {
+            return "1" + "(" + ser + ")";
+         } else if (ser > 0) {
+            return (ser) + "00";
         } else {
-   	       return (ser) + "00 bce";
+            return (ser) + "00 bce";
         }
- 	      
- 	      
- 	      ///else {
- 	      //   return (ser) + "00";
+         
+         
+         ///else {
+         //   return (ser) + "00";
         // }
-		    
-			case "de": 
-				return ((ser -1) * 10) + "s";
-			case "ye": 
-				return ser; 
-			case "mo": 
-			  
-			   i = TG_Date.getDateFromMonthNum(ser);
-			   if (tw < 120) {
-			     return TG_Date.monthNamesAbbr[i.mo] + " " + i.ye; 
-		     } else {
-		       return TG_Date.monthNames[i.mo] + ", " + i.ye; 
-	       }
-				
-				
-			case "da": 
-			  // COSTLY: test performance here on dragging
-			  i = new TG_Date(TG_Date.getDateFromRD(ser));
-			  if (tw < 120) {
-				  return TG_Date.monthNamesAbbr[i.mo] + " " + i.da + ", " + i.ye;
-		    } else {
-		      return TG_Date.monthNames[i.mo] + " " + i.da + ", " + i.ye;
-	      }
-		
-			default: return obj.unit + ":" + ser + ":" + tw;
-		}
-		
-	},
+        
+      case "de": 
+        return ((ser -1) * 10) + "s";
+      case "ye": 
+        return ser; 
+      case "mo": 
+        
+         i = TG_Date.getDateFromMonthNum(ser);
+         if (tw < 120) {
+           return TG_Date.monthNamesAbbr[i.mo] + " " + i.ye; 
+         } else {
+           return TG_Date.monthNames[i.mo] + ", " + i.ye; 
+         }
+        
+        
+      case "da": 
+        // COSTLY: test performance here on dragging
+        i = new TG_Date(TG_Date.getDateFromRD(ser));
+        if (tw < 120) {
+          return TG_Date.monthNamesAbbr[i.mo] + " " + i.da + ", " + i.ye;
+        } else {
+          return TG_Date.monthNames[i.mo] + " " + i.da + ", " + i.ye;
+        }
+    
+      default: return obj.unit + ":" + ser + ":" + tw;
+    }
+    
+  },
 
 
-	tickHangies : function () {
-		var tPos = $(TICKS).position().left,
-		    lHangie = this.leftside + tPos,
-		    rHangie = this.rightside + tPos - this.dimensions.container.width,
-		    tick, added = false,
-		    me = this;
-		
-		if (lHangie > -100) {
-			tick = this.addTick({"type":"l"});
-			me.appendTimelines(tick);
-		} else if (rHangie < 100) {
-			tick = this.addTick({"type":"r"});
-			me.appendTimelines(tick);
-		}
-	},
-	
+  tickHangies : function () {
+    var tPos = $(TICKS).position().left,
+        lHangie = this.leftside + tPos,
+        rHangie = this.rightside + tPos - this.dimensions.container.width,
+        tick, added = false,
+        me = this;
+    
+    if (lHangie > -100) {
+      tick = this.addTick({"type":"l"});
+      me.appendTimelines(tick);
+    } else if (rHangie < 100) {
+      tick = this.addTick({"type":"r"});
+      me.appendTimelines(tick);
+    }
+  },
+  
 
-	/* tickUnit, fd */
-	tickOffsetFromDate : function (zoominfo, fdate, tickwidth) {
-				
-		// switch unit, calculate width gain or loss.... or just loss!
-		var w = tickwidth,
-		    u = zoominfo.unit, p, prop;
+  /* tickUnit, fd */
+  tickOffsetFromDate : function (zoominfo, fdate, tickwidth) {
+        
+    // switch unit, calculate width gain or loss.... or just loss!
+    var w = tickwidth,
+        u = zoominfo.unit, p, prop;
 
-		switch (u) {
-			case "da": 
-				// @4:30        4/24                30 / 1440
-				//              .1666                .0201
-				prop = ((fdate.ho) / 24) + ((fdate.mi) / 1440);
-				p = w * prop;
-				break;
+    switch (u) {
+      case "da": 
+        // @4:30        4/24                30 / 1440
+        //              .1666                .0201
+        prop = ((fdate.ho) / 24) + ((fdate.mi) / 1440);
+        p = w * prop;
+        break;
 
-			case "mo":
-			  
-				var mdn = TG_Date.getMonthDays(fdate.mo, fdate.ye);
-			   
-				prop = ((fdate.da -1) / mdn) + (fdate.ho / (24 * mdn)) + (fdate.mi / (1440 * mdn));
-				p = w * prop;
-				break;
+      case "mo":
+        
+        var mdn = TG_Date.getMonthDays(fdate.mo, fdate.ye);
+         
+        prop = ((fdate.da -1) / mdn) + (fdate.ho / (24 * mdn)) + (fdate.mi / (1440 * mdn));
+        p = w * prop;
+        break;
 
-			case "ye":
-				prop = (((fdate.mo - 1) * 30) + fdate.da) / 365;
-				p = w * prop;
-				break;
+      case "ye":
+        prop = (((fdate.mo - 1) * 30) + fdate.da) / 365;
+        p = w * prop;
+        break;
 
-			case "de": 
-				// 
-				// 1995
-				prop = ((fdate.ye % 10) / 10) + (fdate.mo / 120);
-				p = w * prop;
-				break;
+      case "de": 
+        // 
+        // 1995
+        prop = ((fdate.ye % 10) / 10) + (fdate.mo / 120);
+        p = w * prop;
+        break;
 
-			case "ce": 
-				prop = ((fdate.ye % 100) / 100) + (fdate.mo / 1200);
-				p = w * prop;
-				break;
-			
-			case "thou": 
-				prop = ((fdate.ye % 1000) / 1000); //   + (fdate.ye / 1000) + (fdate.mo / 12000);
-				p = w * prop;
-				break;
-				
+      case "ce": 
+        prop = ((fdate.ye % 100) / 100) + (fdate.mo / 1200);
+        p = w * prop;
+        break;
+      
+      case "thou": 
+        prop = ((fdate.ye % 1000) / 1000); //   + (fdate.ye / 1000) + (fdate.mo / 12000);
+        p = w * prop;
+        break;
+        
 
-			case "tenthou":  
-			
-				prop = ((fdate.ye % 10000) / 10000); //   + (fdate.ye / 1000) + (fdate.mo / 12000);
-				p = w * prop;
-				
-				break;
+      case "tenthou":  
+      
+        prop = ((fdate.ye % 10000) / 10000); //   + (fdate.ye / 1000) + (fdate.mo / 12000);
+        p = w * prop;
+        
+        break;
 
-			case "hundredthou": 
-			
-				prop = ((fdate.ye % 100000) / 100000); //   + (fdate.ye / 1000) + (fdate.mo / 12000);
-				p = w * prop;
-				
-				break;
+      case "hundredthou": 
+      
+        prop = ((fdate.ye % 100000) / 100000); //   + (fdate.ye / 1000) + (fdate.mo / 12000);
+        p = w * prop;
+        
+        break;
 
-			default: p=0;
+      default: p=0;
 
-		}
+    }
 
-		return -1 * p;
-	},
-	
-	
+    return -1 * p;
+  },
+  
+  
   resetTicksHandle : function () {
-		$(this._views.HANDLE).offset({"left":$(CONTAINER).offset().left});
-	},
-	
+    $(this._views.HANDLE).offset({"left":$(CONTAINER).offset().left});
+  },
+  
 
-	easeOutTicks : function() {
-		var me = this;
-			if (Math.abs(this.dragSpeed) > 5) {
-				// This works, but isn't great:offset fails to register
-				// for new tim as it ends animation...
-				// $('#TimegliderTicks').animate({left: '+=' + (5 * me.dragSpeed)}, 400, function() {
-					debug.trace("ticks stopped!", "note");
-					// });
-			}
-		
-	},
-	
+  easeOutTicks : function() {
+    var me = this;
+      if (Math.abs(this.dragSpeed) > 5) {
+        // This works, but isn't great:offset fails to register
+        // for new tim as it ends animation...
+        // $('#TimegliderTicks').animate({left: '+=' + (5 * me.dragSpeed)}, 400, function() {
+          debug.trace("ticks stopped!", "note");
+          // });
+      }
+    
+  },
+  
 
-	/*
-	@param    obj with { tick  |  timeline }
-	@return   array of event ids 
-	*/
-	getTimelineEventsByTick : function (obj) {
-	  
-		var unit = obj.tick.unit,
-		  serial = obj.tick.serial,
-		  hash = obj.timeline.dateHash,
-		  spans = obj.timeline.spans;
-		  	
-		if (hash[unit][serial] && hash[unit][serial].length > 0) {
-			return hash[unit][serial];
-		} else {
-			return 0;
-		}
-	},
-	
-	/* TODO! MOVE THIS TO MEDIATOR/TIMELINE MODEL!!!! */
-	setTimelineProp : function (id, prop, value) {
-		var tl = MED.timelinePool[id];
-		tl[prop] = value;	
-	},
-	
-	/* TODO! MOVE THIS TO MEDIATOR/TIMELINE MODEL!!!! */
-	getTimelineProp : function (id, prop) {
-		var tl = MED.timelinePool[id];
-		return tl[prop];	
-	},
-	
-	
-	passesFilters : function (ev, zoomLevel) {
-	   var ret = true,
-	    ei = "", ea = [], e,
-	    ii = "", ia = [], i;
-	   
-	   // filter by thresholds first
-	   if  ((zoomLevel < ev.low_threshold) || (zoomLevel > ev.high_threshold)) {
-	     return false;
+  /*
+  @param    obj with { tick  |  timeline }
+  @return   array of event ids 
+  */
+  getTimelineEventsByTick : function (obj) {
+    
+    var unit = obj.tick.unit,
+      serial = obj.tick.serial,
+      hash = obj.timeline.dateHash,
+      spans = obj.timeline.spans;
+        
+    if (hash[unit][serial] && hash[unit][serial].length > 0) {
+      return hash[unit][serial];
+    } else {
+      return 0;
+    }
+  },
+  
+  /* TODO! MOVE THIS TO MEDIATOR/TIMELINE MODEL!!!! */
+  setTimelineProp : function (id, prop, value) {
+    var tl = MED.timelinePool[id];
+    tl[prop] = value;  
+  },
+  
+  /* TODO! MOVE THIS TO MEDIATOR/TIMELINE MODEL!!!! */
+  getTimelineProp : function (id, prop) {
+    var tl = MED.timelinePool[id];
+    return tl[prop];  
+  },
+  
+  
+  passesFilters : function (ev, zoomLevel) {
+     var ret = true,
+      ei = "", ea = [], e,
+      ii = "", ia = [], i;
+     
+     // filter by thresholds first
+     if  ((zoomLevel < ev.low_threshold) || (zoomLevel > ev.high_threshold)) {
+       return false;
      }
  
-	   var incl = MED.filters.include;
- 	   if (incl) {
- 	      ia = incl.split(",");
- 	      ret = false;
- 	      // cycle through comma separated include keywords
- 	      for (i=0; i<ia.length; i++) {
- 	        ii = new RegExp($.trim(ia[i]), "i");
- 	        if (ev.title.match(ii)) { ret = true; }
+     var incl = MED.filters.include;
+      if (incl) {
+         ia = incl.split(",");
+         ret = false;
+         // cycle through comma separated include keywords
+         for (i=0; i<ia.length; i++) {
+           ii = new RegExp($.trim(ia[i]), "i");
+           if (ev.title.match(ii)) { ret = true; }
          }
       }
 
-	   var excl = MED.filters.exclude;
-	   if (excl) {
-	      ea = excl.split(",");
-	      for (e=0; e<ea.length; e++) {
-	        ei = new RegExp($.trim(ea[e]), "i");
-	        if (ev.title.match(ei)) { ret = false; }
+     var excl = MED.filters.exclude;
+     if (excl) {
+        ea = excl.split(",");
+        for (e=0; e<ea.length; e++) {
+          ei = new RegExp($.trim(ea[e]), "i");
+          if (ev.title.match(ei)) { ret = false; }
         }
      }
      
@@ -1365,137 +1365,137 @@ tg.TG_TimelineView.prototype = {
        }
      }
  
-	   return ret;
+     return ret;
   },
   
   
-	
-	/*
-	ADDING EVENTS ON INITIAL SWEEP!
-	invoked upon a fresh sweep of entire container, having added a set of ticks
-		--- occurs on expand/collapse
-		--- ticks are created afresh
-	*/
-	freshTimelines : function () {
+  
+  /*
+  ADDING EVENTS ON INITIAL SWEEP!
+  invoked upon a fresh sweep of entire container, having added a set of ticks
+    --- occurs on expand/collapse
+    --- ticks are created afresh
+  */
+  freshTimelines : function () {
 
-		var t, i, tl, tu, ts, tick, tE, tl_ht, t_f, t_l,
-			active = MED.activeTimelines,
-			ticks = MED.ticksArray,
-			borg = '',
-			$title, $ev, 
-			me = this,
-			evid, ev,
-			stuff = '', 
-			cx = me.dimensions.container.centerx,
-			cw = me.dimensions.container.width,
-			foSec = MED.getFocusDate().sec,
-			spp = MED.getZoomInfo().spp,
-			zl = MED.getZoomInfo().level,
-			tArr = [],
-			idArr = [],
-			// left and right scope
-			half = Math.floor(spp * (cw/2)),
-			lsec = foSec - half,
-			rsec = foSec + half,
-			spanin,
-			legend_label = "",
-			spanins = [],
-			expCol, tl_top=0,
-			cht = me.dimensions.container.height,
-			ceiling = 0;
-		//////////////////////////////////////////
-		for (var a=0; a<active.length; a++) {
+    var t, i, tl, tu, ts, tick, tE, tl_ht, t_f, t_l,
+      active = MED.activeTimelines,
+      ticks = MED.ticksArray,
+      borg = '',
+      $title, $ev, 
+      me = this,
+      evid, ev,
+      stuff = '', 
+      cx = me.dimensions.container.centerx,
+      cw = me.dimensions.container.width,
+      foSec = MED.getFocusDate().sec,
+      spp = MED.getZoomInfo().spp,
+      zl = MED.getZoomInfo().level,
+      tArr = [],
+      idArr = [],
+      // left and right scope
+      half = Math.floor(spp * (cw/2)),
+      lsec = foSec - half,
+      rsec = foSec + half,
+      spanin,
+      legend_label = "",
+      spanins = [],
+      expCol, tl_top=0,
+      cht = me.dimensions.container.height,
+      ceiling = 0;
+    //////////////////////////////////////////
+    for (var a=0; a<active.length; a++) {
 
-			// FOR EACH _ACTIVE_ TIMELINE...
-			tl = MED.timelinePool[active[a]];
-		
-			expCol = tl.display;
-			
-			// TODO establish the 120 below in some kind of constant!
-			// meanwhile: tl_top is the starting height of a loaded timeline 
-			// set to 120 unless it's already been dragged
-		  tl_top = (tl.top) ? parseInt(tl.top.replace("px", "")) : (cht-120); // sets up default
-			legend_label = tl.legend.length > 0 ? "<span class='tg-timeline-legend-bt'>legend</span>" : ""; 
-			
-			// TIMELINE CONTAINER
-			$tl = $("<div class='tg-timeline-envelope' id='" + tl.id
-				+ "'><div class='titleBar'><div class='timeline-title'>"
-			 	+ tl.title + "<div class='tg-timeline-env-buttons'>"
-			 	+ "<span class='timeline-info'>info</span>"
-			 	+ legend_label
-			 	// + "<span class='expand-collapse'>expand/collapse</span>" 
-			 	+ "</div></div></div></div>")
-			 	.appendTo(TICKS);
-			
-			$tl.draggable({
-				axis:"y",
-				handle:".titleBar", 
-				stop: function () {
-					me.setTimelineProp(tl.id,"top", $(this).css("top"));
-					MED.refresh();	
-				}
-			})
-				.css("top", tl_top);
-				
-			tl_ht = $tl.height();
-			
-			$(CONTAINER + " .tg-timeline-envelope#" + tl.id + " .titleBar .expand-collapse").click(function () { 
-					me.expandCollapseTimeline(tl.id );
-			} );
-			
-			$(CONTAINER + " .tg-timeline-envelope#" + tl.id + " .titleBar .timeline-info").click(function () { 
-  				me.timelineModal(tl.id);
-  		} );
-  		
-  		$(CONTAINER + " .tg-timeline-envelope#" + tl.id + " .titleBar .tg-timeline-legend-bt").click(function () { 
-    			me.legendModal(tl.id);
-    	} );
+      // FOR EACH _ACTIVE_ TIMELINE...
+      tl = MED.timelinePool[active[a]];
+    
+      expCol = tl.display;
+      
+      // TODO establish the 120 below in some kind of constant!
+      // meanwhile: tl_top is the starting height of a loaded timeline 
+      // set to 120 unless it's already been dragged
+      tl_top = (tl.top) ? parseInt(tl.top.replace("px", "")) : (cht-120); // sets up default
+      legend_label = tl.legend.length > 0 ? "<span class='tg-timeline-legend-bt'>legend</span>" : ""; 
+      
+      // TIMELINE CONTAINER
+      $tl = $("<div class='tg-timeline-envelope' id='" + tl.id
+        + "'><div class='titleBar'><div class='timeline-title'>"
+         + tl.title + "<div class='tg-timeline-env-buttons'>"
+         + "<span class='timeline-info'>info</span>"
+         + legend_label
+         // + "<span class='expand-collapse'>expand/collapse</span>" 
+         + "</div></div></div></div>")
+         .appendTo(TICKS);
+      
+      $tl.draggable({
+        axis:"y",
+        handle:".titleBar", 
+        stop: function () {
+          me.setTimelineProp(tl.id,"top", $(this).css("top"));
+          MED.refresh();  
+        }
+      })
+        .css("top", tl_top);
+        
+      tl_ht = $tl.height();
+      
+      $(CONTAINER + " .tg-timeline-envelope#" + tl.id + " .titleBar .expand-collapse").click(function () { 
+          me.expandCollapseTimeline(tl.id );
+      } );
+      
+      $(CONTAINER + " .tg-timeline-envelope#" + tl.id + " .titleBar .timeline-info").click(function () { 
+          me.timelineModal(tl.id);
+      } );
+      
+      $(CONTAINER + " .tg-timeline-envelope#" + tl.id + " .titleBar .tg-timeline-legend-bt").click(function () { 
+          me.legendModal(tl.id);
+      } );
 
-			$title = $tl.children(".titleBar");
-			t_f = cx + ((tl.bounds.first - foSec) / spp);
-			t_l = cx + ((tl.bounds.last - foSec) / spp);
-			$title.css({"top":tl_ht, "left":t_f, "width":(t_l-t_f)});
+      $title = $tl.children(".titleBar");
+      t_f = cx + ((tl.bounds.first - foSec) / spp);
+      t_l = cx + ((tl.bounds.last - foSec) / spp);
+      $title.css({"top":tl_ht, "left":t_f, "width":(t_l-t_f)});
 
-			/// for initial sweep display, setup fresh borg for organizing events
-			if (expCol == "expanded") { tl.borg = borg = new timeglider.TG_Org(); }
+      /// for initial sweep display, setup fresh borg for organizing events
+      if (expCol == "expanded") { tl.borg = borg = new timeglider.TG_Org(); }
  
-			//cycle through ticks for hashed events
-			for (var tx=0; tx<ticks.length; tx++) {
-				tArr = this.getTimelineEventsByTick({tick:ticks[tx], timeline:tl});
-		    $.merge(idArr, tArr);	
-			}
-			
-			// detect if there are boundless spans (bridging, no start/end points)
+      //cycle through ticks for hashed events
+      for (var tx=0; tx<ticks.length; tx++) {
+        tArr = this.getTimelineEventsByTick({tick:ticks[tx], timeline:tl});
+        $.merge(idArr, tArr);  
+      }
+      
+      // detect if there are boundless spans (bridging, no start/end points)
       for (var sp1=0; sp1<tl.spans.length; sp1++) {
-			  spanin = tl.spans[sp1];;
-			  if (spanin.start < lsec && spanin.end > lsec) {
-			    //not already in array
-			    if ($.inArray(spanin.id, idArr) == -1) {
-			      idArr.unshift(spanin.id);
-		      }
-		    }
-		  }
-	    
-			// no need to reference individual tick
-			stuff = this.compileTickEventsAsHtml(tl, idArr, 0, "sweep");
-			// TODO: make 56 below part of layout constants collection
-			ceiling = (tl.hasImagesAbove) ? tl_top - 56 : tl_top;
-			
-			if (expCol == "expanded") {
-				stuff = borg.getHTML("sweep", ceiling);
-				tl.borg = borg.getBorg();
-			}
-			
-			if (stuff != "undefined") { $tl.append(stuff); }
-			
-			this.registerEventImages($tl);
-			
-		}// end for each timeline
-		
-		// initial title shift since it's not on-drag
-		me.registerTitles();
-		
-	}, // ends freshTimelines()
+        spanin = tl.spans[sp1];;
+        if (spanin.start < lsec && spanin.end > lsec) {
+          //not already in array
+          if ($.inArray(spanin.id, idArr) == -1) {
+            idArr.unshift(spanin.id);
+          }
+        }
+      }
+      
+      // no need to reference individual tick
+      stuff = this.compileTickEventsAsHtml(tl, idArr, 0, "sweep");
+      // TODO: make 56 below part of layout constants collection
+      ceiling = (tl.hasImagesAbove) ? tl_top - 56 : tl_top;
+      
+      if (expCol == "expanded") {
+        stuff = borg.getHTML("sweep", ceiling);
+        tl.borg = borg.getBorg();
+      }
+      
+      if (stuff != "undefined") { $tl.append(stuff); }
+      
+      this.registerEventImages($tl);
+      
+    }// end for each timeline
+    
+    // initial title shift since it's not on-drag
+    me.registerTitles();
+    
+  }, // ends freshTimelines()
 
   
   
@@ -1505,35 +1505,35 @@ tg.TG_TimelineView.prototype = {
   *
   *
   */
-	appendTimelines : function (tick) {
+  appendTimelines : function (tick) {
       
-			var active = MED.activeTimelines, 
-			    $tl, tl, tl_top, stuff = "",
-			    me = this;
-			    
-			// FOR EACH TIMELINE...
-			for (var a=0; a<active.length; a++) {
+      var active = MED.activeTimelines, 
+          $tl, tl, tl_top, stuff = "",
+          me = this;
+          
+      // FOR EACH TIMELINE...
+      for (var a=0; a<active.length; a++) {
 
-				tl = MED.timelinePool[active[a]];
+        tl = MED.timelinePool[active[a]];
         
-				// get the events from timeline model hash
-				idArr = this.getTimelineEventsByTick({tick:tick, timeline:tl});
-				stuff = this.compileTickEventsAsHtml(tl, idArr, tick.serial, "append");
-				 
-				// borg it if it's expanded.
-				if (tl.display == "expanded"){ 
-						stuff = tl.borg.getHTML(tick.serial, tl.top);
-				}
+        // get the events from timeline model hash
+        idArr = this.getTimelineEventsByTick({tick:tick, timeline:tl});
+        stuff = this.compileTickEventsAsHtml(tl, idArr, tick.serial, "append");
+         
+        // borg it if it's expanded.
+        if (tl.display == "expanded"){ 
+            stuff = tl.borg.getHTML(tick.serial, tl.top);
+        }
 
-				$tl = $(".tg-timeline-envelope#" + tl.id).append(stuff);
-				
-				this.registerEventImages($tl);
-					
-		  } // end for in active timelines
-					
-	}, // end appendTimelines()
-	
-	
+        $tl = $(".tg-timeline-envelope#" + tl.id).append(stuff);
+        
+        this.registerEventImages($tl);
+          
+      } // end for in active timelines
+          
+  }, // end appendTimelines()
+  
+  
   
   // events array, MED, tl, borg, 
   // "sweep" vs tick.serial  (or fresh/append)
@@ -1545,56 +1545,56 @@ tg.TG_TimelineView.prototype = {
           ht = $tl.height();
           stuff = "",
           foSec = MED.startSec, 
-			    spp = MED.getZoomInfo().spp,
-			    zl = MED.getZoomInfo().level,
-			    buffer = 20, img_ht = 0,
-			    borg = tl.borg,
-			    block_arg = "sweep"; // default for initial load
-			    
-			if (btype == "append") {
+          spp = MED.getZoomInfo().spp,
+          zl = MED.getZoomInfo().level,
+          buffer = 20, img_ht = 0,
+          borg = tl.borg,
+          block_arg = "sweep"; // default for initial load
+          
+      if (btype == "append") {
           block_arg = tick_serial;
       }
 
       for (var i=0; i<idArr.length; i++) {
 
-      	ev = MED.eventPool["ev_" + idArr[i]];
+        ev = MED.eventPool["ev_" + idArr[i]];
 
-      	if (this.passesFilters(ev, zl) === true) {
+        if (this.passesFilters(ev, zl) === true) {
 
-      		posx = cx + ((ev.startdateObj.sec - foSec) / spp);
+          posx = cx + ((ev.startdateObj.sec - foSec) / spp);
 
-      		if (expCol == "expanded") {
+          if (expCol == "expanded") {
 
-      		  impq = (tl.size_importance !== false) ? this.scaleToImportance(ev.importance, zl) : 1;
+            impq = (tl.size_importance !== false) ? this.scaleToImportance(ev.importance, zl) : 1;
 
-      			ev.width = (ev.titleWidth * impq) + buffer;
-      			ev.fontsize = this.basicFontSize * impq;
-      			ev.left = posx; // will remain constant
+            ev.width = (ev.titleWidth * impq) + buffer;
+            ev.fontsize = this.basicFontSize * impq;
+            ev.left = posx; // will remain constant
             ev.spanwidth = 0;
             
-      			if (ev.span == true) {
-      			  ev.spanwidth = (ev.enddateObj.sec - ev.startdateObj.sec) / spp;
-      			  if (ev.spanwidth > ev.width) { ev.width = ev.spanwidth; }
-      			}
-      			
-      		  img_ht = 0;
-      		  if (ev.image && ev.image.display_class === "layout") {
-      		    img_ht = ev.image.height + 2;
-      		    ev.width = (ev.image.width > ev.width) ? ev.image.width : ev.width;
-      	    }
+            if (ev.span == true) {
+              ev.spanwidth = (ev.enddateObj.sec - ev.startdateObj.sec) / spp;
+              if (ev.spanwidth > ev.width) { ev.width = ev.spanwidth; }
+            }
+            
+            img_ht = 0;
+            if (ev.image && ev.image.display_class === "layout") {
+              img_ht = ev.image.height + 2;
+              ev.width = (ev.image.width > ev.width) ? ev.image.width : ev.width;
+            }
 
-      			ev.height = Math.ceil(ev.fontsize) + img_ht;
-      			ev.top = ht - ev.height;
+            ev.height = Math.ceil(ev.fontsize) + img_ht;
+            ev.top = ht - ev.height;
             
             // block_arg is either "sweep" for existing ticks
             // or the serial number of the tick being added by dragging
-      			borg.addBlock(ev, block_arg);
+            borg.addBlock(ev, block_arg);
            
-      	  } else if (expCol == "collapsed") {
-      			stuff += "<div id='ev_" + ev.id + 
-      			"' class='timeglider-event-collapsed' style='top:" + 
-      			(ht-2) + "px;left:" +	posx + "px'></div>";
-      	  }
+          } else if (expCol == "collapsed") {
+            stuff += "<div id='ev_" + ev.id + 
+            "' class='timeglider-event-collapsed' style='top:" + 
+            (ht-2) + "px;left:" +  posx + "px'></div>";
+          }
         } // end if it passes filters
 
       }
@@ -1617,43 +1617,43 @@ tg.TG_TimelineView.prototype = {
   *
   *
   */
-	registerEventImages : function ($timeline) {
-	  
-	  $(".timeglider-event-image-bar").each(
-		    function () {
-		      $(this).position({
-		        		my: "top",
-        				at: "bottom",
-        				of: $timeline,
-        				offset: "0, 0"
-	        }).css("left", 0);
-	      }
+  registerEventImages : function ($timeline) {
+    
+    $(".timeglider-event-image-bar").each(
+        function () {
+          $(this).position({
+                my: "top",
+                at: "bottom",
+                of: $timeline,
+                offset: "0, 0"
+          }).css("left", 0);
+        }
       );
       
       $(".timeglider-event-image-above").each(
-    		    function () {
-    		      $(this).position({
-    		        		my: "top",
-            				at: "top",
-            				of: $(CONTAINER),
-            				offset: "0, 12"
-    	        }).css("left", 0);
-    	      }
+            function () {
+              $(this).position({
+                    my: "top",
+                    at: "top",
+                    of: $(CONTAINER),
+                    offset: "0, 12"
+              }).css("left", 0);
+            }
         );
-	  
+    
   },
   
   
-	expandCollapseTimeline : function (id) {
-		var tl = MED.timelinePool[id];
-		if (tl.display == "expanded") {
-			tl.display = "collapsed";
-		} else {
-			tl.display = "expanded";
-		}
-		
-		MED.refresh();
-	},
+  expandCollapseTimeline : function (id) {
+    var tl = MED.timelinePool[id];
+    if (tl.display == "expanded") {
+      tl.display = "collapsed";
+    } else {
+      tl.display = "expanded";
+    }
+    
+    MED.refresh();
+  },
   
 
   //////// MODALS 
@@ -1665,29 +1665,29 @@ tg.TG_TimelineView.prototype = {
     var tl = MED.timelinePool[id], 
     me = this,
     templ_obj = {
-  			  title:tl.title,
-  			  description:tl.description,
-  			  id:id
-  		};
-  		
-  		
-		 $.tmpl(me._templates.timeline_modal,templ_obj)
-  			.appendTo(CONTAINER)
-  			.css("z-index", me.ztop++)
-	      .position({
-      				my: "left top",
-      				at: "left top",
-      				of: (me._views.CONTAINER),
-      				offset: "32, 32", // left, top
-      				collision: "fit fit"
-      	})
-      	.draggable({stack: ".timeglider-modal"});
+          title:tl.title,
+          description:tl.description,
+          id:id
+      };
+      
+      
+     $.tmpl(me._templates.timeline_modal,templ_obj)
+        .appendTo(CONTAINER)
+        .css("z-index", me.ztop++)
+        .position({
+              my: "left top",
+              at: "left top",
+              of: (me._views.CONTAINER),
+              offset: "32, 32", // left, top
+              collision: "fit fit"
+        })
+        .draggable({stack: ".timeglider-modal"});
   
   },
   
   
   
-	
+  
   createEventLinksMenu : function (linkage, modal_type) {
     if (!linkage) return "";
 
@@ -1712,85 +1712,85 @@ tg.TG_TimelineView.prototype = {
   
   
   
-	eventModal : function (eid) {
-		// remove if same event already has modal opened
-		$("#ev_" + eid + "_modal").remove();
-		
-		var me = this,
-		  modal_type = options.event_modal.type,
-		  $par = $("#" + eid),
-		  modalTemplate =  me._templates.event_modal;
-		  ev = MED.eventPool[eid],
-		  
-		  ev_img = (ev.image && ev.image.src) ? "<img src='" + ev.image.src + "'>" : "",
-		  ev_img_src = (ev.image && ev.image.src) ? ev.image.src : "",
-		  links = this.createEventLinksMenu(ev.link, modal_type),
-		  ev_descr = (modal_type == "default") ? ev_img + ev.description: ev.description;
-		  
-		  templ_obj = { 
-  			  title:ev.title,
-  			  description:ev_descr,
-  			  id:eid,
-  			  startdate: ev.startdateObj.format("D", true),
-  			  links:links,
-  			  image:ev_img_src,
-  			  video: ev.video
-  		}
-		  
-			if (ev.video) { 
+  eventModal : function (eid) {
+    // remove if same event already has modal opened
+    $("#ev_" + eid + "_modal").remove();
+    
+    var me = this,
+      modal_type = options.event_modal.type,
+      $par = $("#" + eid),
+      modalTemplate =  me._templates.event_modal;
+      ev = MED.eventPool[eid],
+      
+      ev_img = (ev.image && ev.image.src) ? "<img src='" + ev.image.src + "'>" : "",
+      ev_img_src = (ev.image && ev.image.src) ? ev.image.src : "",
+      links = this.createEventLinksMenu(ev.link, modal_type),
+      ev_descr = (modal_type == "default") ? ev_img + ev.description: ev.description;
+      
+      templ_obj = { 
+          title:ev.title,
+          description:ev_descr,
+          id:eid,
+          startdate: ev.startdateObj.format("D", true),
+          links:links,
+          image:ev_img_src,
+          video: ev.video
+      }
+      
+      if (ev.video) { 
        modalTemplate = me._templates.event_modal_video;
        templ_obj.video = ev.video;
-			}
-			
-	    var $modal = $.tmpl(modalTemplate,templ_obj);
-	    
-			switch (modal_type) {
-			
-			case "full":
-		  // full modal with scrim, etc
-		  var pad = 32;
+      }
+      
+      var $modal = $.tmpl(modalTemplate,templ_obj);
+      
+      switch (modal_type) {
+      
+      case "full":
+      // full modal with scrim, etc
+      var pad = 32;
        $modal
-    			.appendTo(CONTAINER)
-  			  .css({
-  			    "z-index": me.ztop++
-  			  })
-  			  .position({
-      				my: "left top",
-      				at: "left top",
-      				of: (CONTAINER),
-      				offset:"0, 0",
-      				collision: "none none"
-      	  });
-      	$modal.children(".full_modal_panel").css({
-      	    "width":(me.dimensions.container.width - (pad*2)) + "px",
-    			  "height":(me.dimensions.container.height - (pad*2)) + "px"
-    	  });
-			
-			break;
-			
-			// You could add your own modal types here
-			// and position, etc accordingly
-		
-		  // normal small, draggable modal
-			default:
-			  $modal
-    			.appendTo(TICKS)
-  			  .css("z-index", me.ztop++)
-			    .position({
-      				my: "right center",
-      				at: "left center",
-      				of: $par,
-      				offset: "-12, -1", // left, top
-      				collision: "flip fit"
-      	})
-      	.draggable()
-      	.hover(function () { $(this).css("z-index", me.ztop++); });
+          .appendTo(CONTAINER)
+          .css({
+            "z-index": me.ztop++
+          })
+          .position({
+              my: "left top",
+              at: "left top",
+              of: (CONTAINER),
+              offset:"0, 0",
+              collision: "none none"
+          });
+        $modal.children(".full_modal_panel").css({
+            "width":(me.dimensions.container.width - (pad*2)) + "px",
+            "height":(me.dimensions.container.height - (pad*2)) + "px"
+        });
+      
+      break;
+      
+      // You could add your own modal types here
+      // and position, etc accordingly
+    
+      // normal small, draggable modal
+      default:
+        $modal
+          .appendTo(TICKS)
+          .css("z-index", me.ztop++)
+          .position({
+              my: "right center",
+              at: "left center",
+              of: $par,
+              offset: "-12, -1", // left, top
+              collision: "flip fit"
+        })
+        .draggable()
+        .hover(function () { $(this).css("z-index", me.ztop++); });
       
       }// end switch
-	},
-	
-	
-	legendModal : function (id) {
+  },
+  
+  
+  legendModal : function (id) {
   /* only one legend at a time ?? */
   
     var tl = MED.timelinePool[id],
@@ -1806,59 +1806,59 @@ tg.TG_TimelineView.prototype = {
     var templ_obj = {id:id, legend_list:html};
   
     $(CONTAINER + " .timeglider-legend").remove();
-  		
-  	$.tmpl(me._templates.legend_modal,templ_obj)
-  			.appendTo(CONTAINER)
-  			.css("z-index", me.ztop++)
-      	.toggleClass("timeglider-menu-hidden")
-      	.position({
-      				my: "left top",
-      				at: "left top",
-      				of: (CONTAINER),
-      				offset: "16, -4", // left, top
-      				collision: "none none"
-      	});
+      
+    $.tmpl(me._templates.legend_modal,templ_obj)
+        .appendTo(CONTAINER)
+        .css("z-index", me.ztop++)
+        .toggleClass("timeglider-menu-hidden")
+        .position({
+              my: "left top",
+              at: "left top",
+              of: (CONTAINER),
+              offset: "16, -4", // left, top
+              collision: "none none"
+        });
 
-  		$(CONTAINER + " .timeglider-legend li").click(function() { 
-  		    var legend_item_id = $(this).parent().attr("id");
-  		    var icon = ($(this).children("img").attr("src"));
-  		    $(this).toggleClass("tg-legend-icon-selected");
-  		    MED.setFilters({origin:"legend", icon: icon});
-  		});
+      $(CONTAINER + " .timeglider-legend li").click(function() { 
+          var legend_item_id = $(this).parent().attr("id");
+          var icon = ($(this).children("img").attr("src"));
+          $(this).toggleClass("tg-legend-icon-selected");
+          MED.setFilters({origin:"legend", icon: icon});
+      });
 
   },
   
   
-	
-	parseHTMLTable : function(table_id) {
-		var obj = {},
-		now = +new Date(),
-		keys = [];
+  
+  parseHTMLTable : function(table_id) {
+    var obj = {},
+    now = +new Date(),
+    keys = [];
 
-		$('#' + table_id).find('tr').each(function(i){
-			////////// each..
-			var children = $(this).children(),
-			row_obj;
+    $('#' + table_id).find('tr').each(function(i){
+      ////////// each..
+      var children = $(this).children(),
+      row_obj;
 
-			if ( i === 0 ) {
-				keys = children.map(function(){
-					return $(this).attr( 'class' ).replace( /^.*?\btg-(\S+)\b.*?$/, '$1' );
-					}).get();
+      if ( i === 0 ) {
+        keys = children.map(function(){
+          return $(this).attr( 'class' ).replace( /^.*?\btg-(\S+)\b.*?$/, '$1' );
+          }).get();
 
-				} else {
-					row_obj = {};
+        } else {
+          row_obj = {};
 
-					children.each(function(i){
-						row_obj[ keys[i] ] = $(this).text();
-					});
+          children.each(function(i){
+            row_obj[ keys[i] ] = $(this).text();
+          });
 
-					obj[ 'prefix' + now++ ] = row_obj;
-				}
-				/////////
-			});
-			return obj;
-			
-	}
+          obj[ 'prefix' + now++ ] = row_obj;
+        }
+        /////////
+      });
+      return obj;
+      
+  }
 
 } // end VIEW prototype
 
@@ -1985,27 +1985,27 @@ tg.TG_TimelineView.prototype = {
     // immediately invokes to create extra information in zoom tree
     //
     tg.calculateSecPerPx = function (zt) {
-      	for (var z=1; z<zt.length; z++) {
-    			var zl = zt[z];
-    			var sec = 0;
-    			switch(zl.unit) {
-    				case "da": sec =   86400; break;
-    				case "mo": sec =   2419200; break; // assumes only 28 days per 
-    				case "ye": sec =   31536000; break;
-    				case "de": sec =   315360000; break;
-    				case "ce": sec =   3153600000; break;
-    				case "thou": sec =    31536000000; break;
-    				case "tenthou": sec = 315360000000; break;
-    				case "hundredthou": sec = 3153600000000; break;
-    				case "mill": sec =    31536000000000; break;
-    				case "tenmill": sec = 315360000000000; break;
-    				case "hundredmill": sec = 3153600000000000; break;
-    				case "bill": sec =31536000000000000; break;
-    			}
-    			// pixels
-    			zl.spp = sec / parseInt(zl.width);
-    			// trace ("level " + z + " unit:" + zl.unit.substr(0,2) + " sec:" + Math.floor(zl.spp));
-    		}
+        for (var z=1; z<zt.length; z++) {
+          var zl = zt[z];
+          var sec = 0;
+          switch(zl.unit) {
+            case "da": sec =   86400; break;
+            case "mo": sec =   2419200; break; // assumes only 28 days per 
+            case "ye": sec =   31536000; break;
+            case "de": sec =   315360000; break;
+            case "ce": sec =   3153600000; break;
+            case "thou": sec =    31536000000; break;
+            case "tenthou": sec = 315360000000; break;
+            case "hundredthou": sec = 3153600000000; break;
+            case "mill": sec =    31536000000000; break;
+            case "tenmill": sec = 315360000000000; break;
+            case "hundredmill": sec = 3153600000000000; break;
+            case "bill": sec =31536000000000000; break;
+          }
+          // pixels
+          zl.spp = sec / parseInt(zl.width);
+          // trace ("level " + z + " unit:" + zl.unit.substr(0,2) + " sec:" + Math.floor(zl.spp));
+        }
 
     // call it right away to establish values
     }(tg.zoomTree);
@@ -2014,9 +2014,9 @@ tg.TG_TimelineView.prototype = {
     /* a div with id of "hiddenDiv" has to be pre-loaded */
     tg.getStringWidth  = function (str) {
       if (str) {
-    		var ms = $("#timeglider-measure-span").html(str);
-    		return ms.width();
-  		}
+        var ms = $("#timeglider-measure-span").html(str);
+        return ms.width();
+      }
     };
     
     String.prototype.removeWhitespace = function () {

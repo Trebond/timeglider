@@ -99,22 +99,22 @@
                             "</div><span id='timeglider-measure-span'></span>";
                                    
         this.element.html(MAIN_TEMPLATE);
-		
-	    },
-	
-	    /**
+    
+      },
+  
+      /**
        * takes the created template and inserts functionality
        *  from Mediator and View constructors
        *
        *
        */
-	    _init : function () {
-	      	      
-	      // validateOptions should come out as empty string
-	      var optionsCheck = timeglider.validateOptions(this.options);
-	    
-	      if (optionsCheck == "") {
-	        
+      _init : function () {
+                
+        // validateOptions should come out as empty string
+        var optionsCheck = timeglider.validateOptions(this.options);
+      
+        if (optionsCheck == "") {
+          
           tg.TG_Date.setCulture(this.options.culture);
     
           timelineMediator = new tg.TG_Mediator(this.options);
@@ -128,9 +128,9 @@
           alert("Rats. There's a problem with your widget settings:" + optionsCheck);
         }
       
-	    },
-	    
-	    
+      },
+      
+      
       /** 
       *********  PUBLIC METHODS ***************
       *
@@ -194,7 +194,7 @@
         $.Widget.prototype.destroy.apply(this, arguments);
         $(this.element).html("");
       }
-			
+
 }); // end widget process
 
 })(jQuery);

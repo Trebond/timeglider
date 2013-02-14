@@ -148,46 +148,46 @@ tg.TG_Mediator.prototype = {
       var tl = {},
           now = 0,
           keys = [], field, value,
-		      event_id = '',
-		      $table = $(table_id);
+          event_id = '',
+          $table = $(table_id);
 
-		  // timeline head
-		  tl.id = table_id.substr(1);		 
-		  tl.title = $table.attr("title") || "untitled";
-		  tl.description = $table.attr("description") || "";
-		  tl.focus_date = $table.attr("focus_date") || TG_Date.getToday;
-		  tl.initial_zoom = $table.attr("initial_zoom") || 20;
-		  tl.events = [];
+      // timeline head
+      tl.id = table_id.substr(1);
+      tl.title = $table.attr("title") || "untitled";
+      tl.description = $table.attr("description") || "";
+      tl.focus_date = $table.attr("focus_date") || TG_Date.getToday;
+      tl.initial_zoom = $table.attr("initial_zoom") || 20;
+      tl.events = [];
 
       $table.find('tr').each(function(i){
 
-          	var children = $(this).children(),
+            var children = $(this).children(),
               row_obj;
 
-          	// first row -- <th> or <td>, gather the field names
-           	if ( i === 0 ) {
+            // first row -- <th> or <td>, gather the field names
+             if ( i === 0 ) {
 
-            	keys = children.map(function(){
-	            	// using "tg-*" map each column to the corresponding data
-              		return $(this).attr( 'class' ).replace( /^.*?\btg-(\S+)\b.*?$/, '$1' );
-            	}).get();
+              keys = children.map(function(){
+                // using "tg-*" map each column to the corresponding data
+                  return $(this).attr( 'class' ).replace( /^.*?\btg-(\S+)\b.*?$/, '$1' );
+              }).get();
 
-          	} else {
-				// i.e. an event
-           		row_obj = {};
+            } else {
+        // i.e. an event
+               row_obj = {};
 
-				children.each(function(i){
-					field = keys[i],
-					value = $(this).text();
-					// TODO: VALIDATE EVENT STUFF HERE
+        children.each(function(i){
+          field = keys[i],
+          value = $(this).text();
+          // TODO: VALIDATE EVENT STUFF HERE
 
-					row_obj[ field ] = value;
-				});
-				event_id = 'ev_' + now++;
-				row_obj.id = event_id;
-            	tl.events.push(row_obj);
+          row_obj[ field ] = value;
+        });
+        event_id = 'ev_' + now++;
+        row_obj.id = event_id;
+              tl.events.push(row_obj);
 
-          	} // end if-else i===0
+            } // end if-else i===0
     }); // end .each()
     
         $table.css("display", "none");
@@ -433,14 +433,14 @@ tg.TG_Mediator.prototype = {
 
         /*
         *  addToTicksArray
-        *	 @param obj {Object} 
-        *		  serial: #initial tick
-        *		  type:init|l|r
-        *		  unit:ye | mo | da | etc
-        *		  width: #px
-        *		  left: #px
-        *	 @param focusDate {TG_Date}
-        *		 used for initial tick; others set off init
+        *   @param obj {Object} 
+        *      serial: #initial tick
+        *      type:init|l|r
+        *      unit:ye | mo | da | etc
+        *      width: #px
+        *      left: #px
+        *   @param focusDate {TG_Date}
+        *     used for initial tick; others set off init
         */
         addToTicksArray : function (obj, focusDate) {
 
@@ -511,20 +511,20 @@ tg.TG_Mediator.prototype = {
           var ev = MED.eventPool["ev_" + img.id];
           
           if (!img.error) {
-          	ev.image.width = img.width;
-          	ev.image.height = img.height;
-       	  } else {
-          	ev.image = {}
-          	debug.log("WHOOPS: MISSING IMAGE: " + img.src);
-     	    }
+            ev.image.width = img.width;
+            ev.image.height = img.height;
+           } else {
+            ev.image = {}
+            debug.log("WHOOPS: MISSING IMAGE: " + img.src);
+           }
 
-        	this.imagesSized++;
+          this.imagesSized++;
           
-        	if (this.imagesSized == this.imagesToSize) {
-        	  // if there are images, this would usually be
-        	  // the last step before proceeding
-        		this.tryLoading();
-        	}
+          if (this.imagesSized == this.imagesToSize) {
+            // if there are images, this would usually be
+            // the last step before proceeding
+            this.tryLoading();
+          }
         }
 
 
@@ -535,99 +535,99 @@ tg.TG_Mediator.prototype = {
         
         tg.getLowHigh = function (arr) {
 
-        	var i, n, 
-        		high = parseFloat(arr[0]), 
-        		low = high;
+          var i, n, 
+            high = parseFloat(arr[0]), 
+            low = high;
 
-        	for (i=0; i<arr.length; i++) {
-        		n = parseFloat(arr[i]);
-        		if (n<low) low = n;
-        		if (n>high) high = n;
-        	}
+          for (i=0; i<arr.length; i++) {
+            n = parseFloat(arr[i]);
+            if (n<low) low = n;
+            if (n>high) high = n;
+          }
 
-        	return {"high":high, "low":low}
+          return {"high":high, "low":low}
 
         };
         
   
-    	  
         
         
-        tg.validateOptions = function (widget_settings) {	
+        
+        tg.validateOptions = function (widget_settings) {  
           
             this.optionsMaster = { initial_focus:{type:"date"}, 
-            	editor:{type:"string"}, 
-            	backgroundColor:{type:"color"}, 
-            	backgroundImage:{type:"color"}, 
-            	min_zoom:{type:"number", min:1, max:100}, 
-            	max_zoom:{type:"number", min:1, max:100}, 
-            	initial_zoom:{type:"number", min:1, max:100}, 
-            	show_centerline:{type:"boolean"}, 
-            	display_zoom_level:{type:"boolean"}, 
-            	data_source:{type:"url"}, 
-            	basic_fontsize:{type:"number", min:9, max:100}, 
-            	mouse_wheel:{type:"string", possible:["zoom","pan"]}, 
-            	initial_timeline_id:{type:"string"},
-            	icon_folder:{type:"string"},
-            	show_footer:{type:"boolean"},
-            	display_zoom_level:{type:"boolean"},
-            	event_modal:{type:"object"}
-          	}
-          	
-        		// msg: will be return value: validates when empty 
-        		// change lb to <br> if the error is returned in HTML (vs alert())
-        		var me = this, msg = "", lb = "\n";
+              editor:{type:"string"}, 
+              backgroundColor:{type:"color"}, 
+              backgroundImage:{type:"color"}, 
+              min_zoom:{type:"number", min:1, max:100}, 
+              max_zoom:{type:"number", min:1, max:100}, 
+              initial_zoom:{type:"number", min:1, max:100}, 
+              show_centerline:{type:"boolean"}, 
+              display_zoom_level:{type:"boolean"}, 
+              data_source:{type:"url"}, 
+              basic_fontsize:{type:"number", min:9, max:100}, 
+              mouse_wheel:{type:"string", possible:["zoom","pan"]}, 
+              initial_timeline_id:{type:"string"},
+              icon_folder:{type:"string"},
+              show_footer:{type:"boolean"},
+              display_zoom_level:{type:"boolean"},
+              event_modal:{type:"object"}
+            }
+            
+            // msg: will be return value: validates when empty 
+            // change lb to <br> if the error is returned in HTML (vs alert())
+            var me = this, msg = "", lb = "\n";
 
-        		$.each(widget_settings, function(key, value) { 
+            $.each(widget_settings, function(key, value) { 
 
-        			if (me.optionsMaster[key]) {
+              if (me.optionsMaster[key]) {
 
-        				switch (me.optionsMaster[key].type) {
-        					case "string": 
-        						if (typeof value != "string") { msg += (key + " needs to be a string." + lb); }
-        						if (me.optionsMaster[key].possible) {
-        							if ($.inArray(value, me.optionsMaster[key].possible) == -1) {
-        								msg += (key + " must be: " + me.optionsMaster[key].possible.join(" or "));
-        							}
-        						}
-        					break;
+                switch (me.optionsMaster[key].type) {
+                  case "string": 
+                    if (typeof value != "string") { msg += (key + " needs to be a string." + lb); }
+                    if (me.optionsMaster[key].possible) {
+                      if ($.inArray(value, me.optionsMaster[key].possible) == -1) {
+                        msg += (key + " must be: " + me.optionsMaster[key].possible.join(" or "));
+                      }
+                    }
+                  break;
 
-        					case "number":
-        						if (typeof value != "number") { msg += (value + " needs to be a number." + lb); }
-        						if (me.optionsMaster[key].min) {
-        							if (value < me.optionsMaster[key].min) {
-        								msg += (key + " must be greater than or equal to " + me.optionsMaster[key].min + lb);
-        							}
-        						}
+                  case "number":
+                    if (typeof value != "number") { msg += (value + " needs to be a number." + lb); }
+                    if (me.optionsMaster[key].min) {
+                      if (value < me.optionsMaster[key].min) {
+                        msg += (key + " must be greater than or equal to " + me.optionsMaster[key].min + lb);
+                      }
+                    }
 
-        						if (me.optionsMaster[key].max) {
-        							if (value > me.optionsMaster[key].max) {
-        								msg += (key + " must be less than or equal to " + me.optionsMaster[key].max + lb);
-        							}
-        						}
-        					break;
+                    if (me.optionsMaster[key].max) {
+                      if (value > me.optionsMaster[key].max) {
+                        msg += (key + " must be less than or equal to " + me.optionsMaster[key].max + lb);
+                      }
+                    }
+                  break;
 
-        					case "date":
-        						// TODO validate a date string using TG_Date...
-        					break;
+                  case "date":
+                    // TODO validate a date string using TG_Date...
+                  break;
 
-        					case "boolean":
-        						if (typeof value != "boolean") msg += (value + " needs to be a number." + lb);
-        					break;
+                  case "boolean":
+                    if (typeof value != "boolean") msg += (value + " needs to be a number." + lb);
+                  break;
 
-        					case "url":
-        						// TODO test for pattern for url....
-        					break;
+                  case "url":
+                    // TODO test for pattern for url....
+                  break;
 
-        					case "color":
-        						/// TODO test for pattern for color, including "red", "orange", etc
-        					break;
+                  case "color":
+                    /// TODO test for pattern for color, including "red", "orange", etc
+                  break;
 
-        				}
-        			}
-        		}); // end each
+                }
+              }
+            }); // end each
 
-        		return msg;
+            return msg;
 
         };
         

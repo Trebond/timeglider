@@ -341,7 +341,7 @@
  
  
   }; ///// END TG_Org
-      
-      
-	
-})(timeglider);	
+
+
+
+})(timeglider);
